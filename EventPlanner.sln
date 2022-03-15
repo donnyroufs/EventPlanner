@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventPlanner.Tests", "EventPlanner.Tests\EventPlanner.Tests.csproj", "{DD79B462-A663-405D-95AE-27B660297501}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventPlanner.Domain", "EventPlanner.Domain\EventPlanner.Domain.csproj", "{BC28FD0F-477A-4A62-9E09-A3AFC8DCF604}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventPlanner.Application", "EventPlanner.Application\EventPlanner.Application.csproj", "{D515B55B-80A0-4D01-909C-CDCA98EE58C5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DD79B462-A663-405D-95AE-27B660297501}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD79B462-A663-405D-95AE-27B660297501}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD79B462-A663-405D-95AE-27B660297501}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD79B462-A663-405D-95AE-27B660297501}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC28FD0F-477A-4A62-9E09-A3AFC8DCF604}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC28FD0F-477A-4A62-9E09-A3AFC8DCF604}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC28FD0F-477A-4A62-9E09-A3AFC8DCF604}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC28FD0F-477A-4A62-9E09-A3AFC8DCF604}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D515B55B-80A0-4D01-909C-CDCA98EE58C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D515B55B-80A0-4D01-909C-CDCA98EE58C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D515B55B-80A0-4D01-909C-CDCA98EE58C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D515B55B-80A0-4D01-909C-CDCA98EE58C5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
