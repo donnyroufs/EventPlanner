@@ -1,12 +1,11 @@
-namespace EventPlanner.Domain
-{
-    public class Ocassion
-    {
-        public string Description { get; }
+namespace EventPlanner.Domain;
 
-        public Ocassion(string description)
-        {
-            Description = description;
-        }
+public class Ocassion
+{
+    public string Description { get; }
+
+    public Ocassion(string description)
+    {
+        Description = description;
     }
 }

@@ -1,11 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net48</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
+        <LangVersion>latestmajor</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\EventPlanner.Domain\EventPlanner.Domain.csproj" />
+      <ProjectReference Include="..\EventPlanner.Shared\EventPlanner.Shared.csproj" />
     </ItemGroup>
 
 </Project>

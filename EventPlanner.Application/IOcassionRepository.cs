@@ -1,10 +1,9 @@
 using System.Threading.Tasks;
 using EventPlanner.Domain;
 
-namespace EventPlanner.Application
+namespace EventPlanner.Application;
+
+public interface IOcassionRepository
 {
-    public interface IOcassionRepository
-    {
-        Task<Ocassion> Save(Ocassion ocassion);
-    }
+    Task<Ocassion> Save(Ocassion ocassion);
 }
