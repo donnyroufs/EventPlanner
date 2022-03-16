@@ -17,7 +17,7 @@ public class CreateOcassionUseCase<Output> : IUseCase<ICreateOcassionDTO, Output
 
     public async Task<Output> Execute(ICreateOcassionDTO data)
     {
-        var ocassion = new Ocassion(data.Description);
+        var ocassion = new Ocassion(data.Description, data.Days);
 
         var createdOcassion = await _ocassionRepository.Save(ocassion);
 
