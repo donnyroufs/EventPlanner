@@ -1,6 +1,6 @@
 using System;
 
-namespace EventPlanner.Domain;
+namespace EventPlanner.Domain.Exceptions;
 
 public class OcassionRequiresAtleastOneDayException : Exception
 {

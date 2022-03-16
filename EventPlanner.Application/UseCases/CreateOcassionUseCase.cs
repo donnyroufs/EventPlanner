@@ -1,10 +1,11 @@
 using System.Threading.Tasks;
-using EventPlanner.Application.Dtos;
+using EventPlanner.Application.DTOs;
 using EventPlanner.Application.Interfaces;
 using EventPlanner.Domain;
+using EventPlanner.Domain.Entities;
 using EventPlanner.Shared;
 
-namespace EventPlanner.Application;
+namespace EventPlanner.Application.UseCases;
 
 public class CreateOcassionUseCase<Output> : IUseCase<ICreateOcassionDTO, Output>
 {
@@ -23,6 +24,6 @@ public class CreateOcassionUseCase<Output> : IUseCase<ICreateOcassionDTO, Output
 
         var createdOcassion = await _ocassionRepository.Save(ocassion);
 
-        return _presenter.Present(OcassionDTO.Create(createdOcassion));
+        return _presenter.Present(OcassionDTO.From(createdOcassion));
     }
 }

@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using EventPlanner.Application;
-using EventPlanner.Application.Dtos;
+using EventPlanner.Application.DTOs;
 using EventPlanner.Application.Interfaces;
-using EventPlanner.Domain;
+using EventPlanner.Application.UseCases;
+using EventPlanner.Domain.Entities;
+using EventPlanner.Domain.Exceptions;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
@@ -61,36 +62,36 @@ public class Tests
 
         await act.Should().ThrowAsync<OcassionRequiresAtleastOneDayException>();
     }
-}
 
-internal class CreateOcassionDTO : ICreateOcassionDTO
-{
-    public string Description { get; init; }
-    public List<DayOfWeek> Days { get; init; }
-
-    public CreateOcassionDTO(string description, List<DayOfWeek> days)
+    private class CreateOcassionDTO : ICreateOcassionDTO
     {
-        Description = description;
-        Days = days;
+        public string Description { get; init; }
+        public List<DayOfWeek> Days { get; init; }
+
+        public CreateOcassionDTO(string description, List<DayOfWeek> days)
+        {
+            Description = description;
+            Days = days;
+        }
     }
-}
 
-internal class OcassionViewModel
-{
-    public string Description { get; init; }
-    public List<DayOfWeek> Days { get; init; }
-
-    public OcassionViewModel(string description, List<DayOfWeek> days)
+    private class OcassionViewModel
     {
-        Description = description;
-        Days = days;
+        public string Description { get; init; }
+        public List<DayOfWeek> Days { get; init; }
+
+        public OcassionViewModel(string description, List<DayOfWeek> days)
+        {
+            Description = description;
+            Days = days;
+        }
     }
-}
 
-internal class Presenter : IPresenter<OcassionDTO, OcassionViewModel>
-{
-    public OcassionViewModel Present(OcassionDTO data)
+    private class Presenter : IPresenter<OcassionDTO, OcassionViewModel>
     {
-        return new OcassionViewModel(data.Description, data.Days);
+        public OcassionViewModel Present(OcassionDTO data)
+        {
+            return new OcassionViewModel(data.Description, data.Days);
+        }
     }
 }

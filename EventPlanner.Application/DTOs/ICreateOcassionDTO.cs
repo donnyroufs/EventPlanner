@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace EventPlanner.Application.Dtos;
+namespace EventPlanner.Application.DTOs;
 
 public interface ICreateOcassionDTO
 {

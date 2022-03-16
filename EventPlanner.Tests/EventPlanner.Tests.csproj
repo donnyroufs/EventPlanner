@@ -21,8 +21,4 @@
       <ProjectReference Include="..\EventPlanner.Domain\EventPlanner.Domain.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Compile Remove="InviteUserUseCaseTests.cs" />
-    </ItemGroup>
-
 </Project>
