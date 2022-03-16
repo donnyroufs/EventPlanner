@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using EventPlanner.Domain;
 
-namespace EventPlanner.Application;
+namespace EventPlanner.Application.Dtos;
 
 public class OcassionDTO
 {

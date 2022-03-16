@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using EventPlanner.Application;
+using EventPlanner.Application.Dtos;
+using EventPlanner.Application.Interfaces;
 using EventPlanner.Domain;
 using FluentAssertions;
 using Moq;

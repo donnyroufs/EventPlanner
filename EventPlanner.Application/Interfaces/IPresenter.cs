@@ -1,4 +1,4 @@
-namespace EventPlanner.Application;
+namespace EventPlanner.Application.Interfaces;
 
 public interface IPresenter<Input, Output>
 {

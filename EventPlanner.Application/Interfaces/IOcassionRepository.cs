@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using EventPlanner.Domain;
 
-namespace EventPlanner.Application;
+namespace EventPlanner.Application.Interfaces;
 
 public interface IOcassionRepository
 {

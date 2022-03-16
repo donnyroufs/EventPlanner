@@ -1,4 +1,6 @@
 using System.Threading.Tasks;
+using EventPlanner.Application.Dtos;
+using EventPlanner.Application.Interfaces;
 using EventPlanner.Domain;
 using EventPlanner.Shared;
 

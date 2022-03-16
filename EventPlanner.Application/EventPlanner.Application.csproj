@@ -10,4 +10,10 @@
       <ProjectReference Include="..\EventPlanner.Shared\EventPlanner.Shared.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="InviteUserUseCase.cs" />
+      <Compile Remove="INotify.cs" />
+      <Compile Remove="IInviteUserDTO.cs" />
+    </ItemGroup>
+
 </Project>
