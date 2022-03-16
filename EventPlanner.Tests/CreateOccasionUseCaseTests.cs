@@ -63,17 +63,7 @@ public class Tests
         await act.Should().ThrowAsync<OccasionRequiresAtleastOneDayException>();
     }
 
-    private class CreateOccasionDTO : ICreateOccasionDTO
-    {
-        public string Description { get; init; }
-        public List<DayOfWeek> Days { get; init; }
 
-        public CreateOccasionDTO(string description, List<DayOfWeek> days)
-        {
-            Description = description;
-            Days = days;
-        }
-    }
 
     private class OccasionViewModel
     {

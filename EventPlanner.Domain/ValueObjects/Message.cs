@@ -1,4 +1,4 @@
-namespace EventPlanner.Domain.Entities;
+namespace EventPlanner.Domain.ValueObjects;
 
 public class Message
 {

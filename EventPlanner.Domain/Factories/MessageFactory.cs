@@ -1,4 +1,5 @@
 using EventPlanner.Domain.Entities;
+using EventPlanner.Domain.ValueObjects;
 
 namespace EventPlanner.Domain.Factories;
 

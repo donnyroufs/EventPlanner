@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using EventPlanner.Domain.Entities;
+using EventPlanner.Domain.ValueObjects;
 
 namespace EventPlanner.Application.Interfaces;
 
