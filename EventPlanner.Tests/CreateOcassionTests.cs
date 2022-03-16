@@ -18,8 +18,14 @@ namespace EventPlanner.Tests
 
             var presenter = new Presenter();
             var ocassionRepository = new Mock<IOcassionRepository>();
+
+            var ocassion = new Ocassion(description);
             var createOcassionUseCase = new CreateOcassionUseCase<OcassionViewModel>(ocassionRepository.Object, presenter);
             var ocassionViewModel = new OcassionViewModel(description);
+
+            ocassionRepository
+                .Setup(x => x.Save(It.IsAny<Ocassion>()))
+                .Returns(Task.FromResult(ocassion));
 
             ICreateOcassionDTO input = new CreateOcassionDTO(description);
 

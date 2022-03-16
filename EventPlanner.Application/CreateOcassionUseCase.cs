@@ -19,8 +19,8 @@ public class CreateOcassionUseCase<Output> : IUseCase<ICreateOcassionDTO, Output
     {
         var ocassion = new Ocassion(data.Description);
 
-        await _ocassionRepository.Save(ocassion);
+        var createdOcassion = await _ocassionRepository.Save(ocassion);
 
-        return _presenter.Present(OcassionDTO.Create(ocassion));
+        return _presenter.Present(OcassionDTO.Create(createdOcassion));
     }
 }
