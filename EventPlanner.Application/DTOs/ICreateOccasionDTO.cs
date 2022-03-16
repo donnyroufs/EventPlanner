@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace EventPlanner.Application.DTOs;
 
-public interface ICreateOcassionDTO
+public interface ICreateOccasionDTO
 {
     string Description { get; }
     List<DayOfWeek> Days { get; init; }

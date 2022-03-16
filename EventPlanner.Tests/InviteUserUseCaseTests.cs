@@ -17,22 +17,22 @@ namespace EventPlanner.Tests;
 public class InviteUserUseCaseTests
 {
     [Test]
-    public async Task ThrowsAnExceptionWhenTheOcassionDoesNotExist()
+    public async Task ThrowsAnExceptionWhenTheOccasionDoesNotExist()
     {
         var presenter = new Presenter();
         var notifier = new Mock<INotify>();
-        var repository = new Mock<IOcassionRepository>();
+        var repository = new Mock<IOccasionRepository>();
 
         repository
             .Setup(x => x.Find(It.IsAny<Guid>()))!
-            .ReturnsAsync((Ocassion)null);
+            .ReturnsAsync((Occasion)null);
 
         var useCase = new InviteUserUseCase<InviteUserViewModel>(presenter, notifier.Object, repository.Object);
 
         var dto = new InviteUserDTO(Guid.Empty, "john@gmail.com");
         var act = () => useCase.Execute(dto);
 
-        await act.Should().ThrowAsync<OcassionDoesNotExistException>();
+        await act.Should().ThrowAsync<OccasionDoesNotExistException>();
     }
 
     [Test]
@@ -40,27 +40,27 @@ public class InviteUserUseCaseTests
     {
         var presenter = new Presenter();
         var notifier = new Mock<INotify>();
-        var repository = new Mock<IOcassionRepository>();
-        var ocassion = new Ocassion("My ocassion", new List<DayOfWeek>()
+        var repository = new Mock<IOccasionRepository>();
+        var occasion = new Occasion("My Occasion", new List<DayOfWeek>()
         {
             DayOfWeek.Friday
         });
 
         repository
             .Setup(x => x.Find(It.IsAny<Guid>()))
-            .ReturnsAsync(ocassion);
+            .ReturnsAsync(occasion);
 
         var useCase = new InviteUserUseCase<InviteUserViewModel>(presenter, notifier.Object, repository.Object);
-        var dto = new InviteUserDTO(ocassion.Id, "john@gmail.com");
+        var dto = new InviteUserDTO(occasion.Id, "john@gmail.com");
 
         await useCase.Execute(dto);
 
         notifier.Verify(x => x.Notify(It.IsAny<Message>()), Times.Once);
     }
 
-    private class Presenter : IPresenter<OcassionDTO, InviteUserViewModel>
+    private class Presenter : IPresenter<OccasionDTO, InviteUserViewModel>
     {
-        public InviteUserViewModel Present(OcassionDTO data)
+        public InviteUserViewModel Present(OccasionDTO data)
         {
             return new InviteUserViewModel();
         }

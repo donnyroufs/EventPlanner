@@ -6,6 +6,6 @@ public static class MessageFactory
 {
     public static Message CreateInvitation(string to, string body)
     {
-        return new Message(to, "You have been invited for an ocassion", body);
+        return new Message(to, "You have been invited for an Occasion", body);
     }
 }

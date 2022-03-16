@@ -6,14 +6,14 @@ namespace EventPlanner.Domain.Entities;
 public class Invitation
 {
     public Guid Id { get; init; }
-    public Guid OcassionId { get; init; }
+    public Guid OccasionId { get; init; }
     public string UserEmail { get; init; }
     public InvitationStatus Status { get; set; }
 
-    public Invitation(Guid id, Guid ocassionId, InvitationStatus status, string userEmail)
+    public Invitation(Guid id, Guid OccasionId, InvitationStatus status, string userEmail)
     {
         Id = id;
-        OcassionId = ocassionId;
+        OccasionId = OccasionId;
         Status = status;
         UserEmail = userEmail;
     }

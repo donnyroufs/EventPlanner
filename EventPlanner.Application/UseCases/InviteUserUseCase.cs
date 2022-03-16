@@ -10,49 +10,49 @@ namespace EventPlanner.Application.UseCases;
 
 public class InviteUserUseCase<Output> : IUseCase<IInviteUserDTO, Output>
 {
-    private readonly IPresenter<OcassionDTO, Output> _presenter;
+    private readonly IPresenter<OccasionDTO, Output> _presenter;
     private readonly INotify _notifier;
-    private readonly IOcassionRepository _ocassionRepository;
+    private readonly IOccasionRepository _OccasionRepository;
 
-    public InviteUserUseCase(IPresenter<OcassionDTO, Output> presenter, INotify notifier,
-        IOcassionRepository ocassionRepository)
+    public InviteUserUseCase(IPresenter<OccasionDTO, Output> presenter, INotify notifier,
+        IOccasionRepository OccasionRepository)
     {
         _presenter = presenter;
         _notifier = notifier;
-        _ocassionRepository = ocassionRepository;
+        _OccasionRepository = OccasionRepository;
     }
 
     public async Task<Output> Execute(IInviteUserDTO data)
     {
-        var ocassion = await getOcassionOrThrow(data);
+        var Occasion = await getOccasionOrThrow(data);
 
-        await sendInvitation(ocassion, data.Receiver);
+        await sendInvitation(Occasion, data.Receiver);
 
-        return presentResult(ocassion);
+        return presentResult(Occasion);
     }
 
 
-    private async Task<Ocassion> getOcassionOrThrow(IInviteUserDTO data)
+    private async Task<Occasion> getOccasionOrThrow(IInviteUserDTO data)
     {
-        var ocassion = await _ocassionRepository.Find(data.OcassionId);
+        var Occasion = await _OccasionRepository.Find(data.OccasionId);
 
-        if (ocassion == null)
+        if (Occasion == null)
         {
-            throw new OcassionDoesNotExistException();
+            throw new OccasionDoesNotExistException();
         }
 
-        return ocassion;
+        return Occasion;
     }
 
-    private async Task sendInvitation(Ocassion ocassion, string receiver)
+    private async Task sendInvitation(Occasion Occasion, string receiver)
     {
-        var message = MessageFactory.CreateInvitation(receiver, ocassion.Description);
+        var message = MessageFactory.CreateInvitation(receiver, Occasion.Description);
         await _notifier.Notify(message);
     }
 
-    private Output presentResult(Ocassion ocassion)
+    private Output presentResult(Occasion Occasion)
     {
-        var dto = OcassionDTO.From(ocassion!);
+        var dto = OccasionDTO.From(Occasion!);
         return _presenter.Present(dto);
     }
 }

@@ -5,15 +5,15 @@ using EventPlanner.Domain.Exceptions;
 
 namespace EventPlanner.Domain.Entities;
 
-public class Ocassion
+public class Occasion
 {
     public Guid Id { get; } = Guid.NewGuid();
     public List<DayOfWeek> Days { get; init; }
     public string Description { get; init; }
 
-    public Ocassion(string description, List<DayOfWeek> days)
+    public Occasion(string description, List<DayOfWeek> days)
     {
-        if (!days.Any()) throw new OcassionRequiresAtleastOneDayException();
+        if (!days.Any()) throw new OccasionRequiresAtleastOneDayException();
 
         Description = description;
         Days = days;

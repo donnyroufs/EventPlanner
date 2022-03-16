@@ -4,8 +4,8 @@ using EventPlanner.Domain.Entities;
 
 namespace EventPlanner.Application.Interfaces;
 
-public interface IOcassionRepository
+public interface IOccasionRepository
 {
-    Task<Ocassion> Save(Ocassion ocassion);
-    Task<Ocassion> Find(Guid id);
+    Task<Occasion> Save(Occasion Occasion);
+    Task<Occasion> Find(Guid id);
 }

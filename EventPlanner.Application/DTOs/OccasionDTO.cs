@@ -4,19 +4,19 @@ using EventPlanner.Domain.Entities;
 
 namespace EventPlanner.Application.DTOs;
 
-public class OcassionDTO
+public class OccasionDTO
 {
     public string Description { get; init; }
     public List<DayOfWeek> Days { get; init; }
 
-    private OcassionDTO(string description, List<DayOfWeek> days)
+    private OccasionDTO(string description, List<DayOfWeek> days)
     {
         Description = description;
         Days = days;
     }
 
-    public static OcassionDTO From(Ocassion entity)
+    public static OccasionDTO From(Occasion entity)
     {
-        return new OcassionDTO(entity.Description, entity.Days);
+        return new OccasionDTO(entity.Description, entity.Days);
     }
 }
