@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using EventPlanner.Domain.Exceptions;
+using EventPlanner.Shared;
 
 namespace EventPlanner.Domain.Entities;
 
-public class Occasion
+public class Occasion : Entity
 {
-    public Guid Id { get; } = Guid.NewGuid();
     public List<DayOfWeek> Days { get; init; }
     public string Description { get; init; }
 

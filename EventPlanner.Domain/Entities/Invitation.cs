@@ -1,18 +1,17 @@
 using System;
 using EventPlanner.Domain.Enums;
+using EventPlanner.Shared;
 
 namespace EventPlanner.Domain.Entities;
 
-public class Invitation
+public class Invitation : Entity
 {
-    public Guid Id { get; init; }
     public Guid OccasionId { get; init; }
     public string UserEmail { get; init; }
     public InvitationStatus Status { get; set; }
 
-    public Invitation(Guid id, Guid occasionId, InvitationStatus status, string userEmail)
+    public Invitation(Guid occasionId, InvitationStatus status, string userEmail)
     {
-        Id = id;
         OccasionId = occasionId;
         Status = status;
         UserEmail = userEmail;

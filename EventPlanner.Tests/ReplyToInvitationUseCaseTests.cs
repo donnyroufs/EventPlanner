@@ -26,7 +26,7 @@ public class ReplyToInvitationUseCaseTests
         var repository = new Mock<IInvitationRepository>();
         repository
             .Setup(x => x.Find(It.IsAny<Guid>()))!
-            .ReturnsAsync(new Invitation(Guid.NewGuid(), Guid.NewGuid(), InvitationStatus.Pending, "john@gmail.com"));
+            .ReturnsAsync(new Invitation(Guid.NewGuid(), InvitationStatus.Pending, "john@gmail.com"));
 
         var useCase = new ReplyToInvitationUseCase<ReplyToInvitationViewModel>(presenter, repository.Object);
 
