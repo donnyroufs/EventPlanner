@@ -10,10 +10,10 @@ public class Invitation
     public string UserEmail { get; init; }
     public InvitationStatus Status { get; set; }
 
-    public Invitation(Guid id, Guid OccasionId, InvitationStatus status, string userEmail)
+    public Invitation(Guid id, Guid occasionId, InvitationStatus status, string userEmail)
     {
         Id = id;
-        OccasionId = OccasionId;
+        OccasionId = occasionId;
         Status = status;
         UserEmail = userEmail;
     }

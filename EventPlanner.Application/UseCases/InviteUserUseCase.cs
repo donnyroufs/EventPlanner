@@ -12,47 +12,47 @@ public class InviteUserUseCase<Output> : IUseCase<IInviteUserDTO, Output>
 {
     private readonly IPresenter<OccasionDTO, Output> _presenter;
     private readonly INotify _notifier;
-    private readonly IOccasionRepository _OccasionRepository;
+    private readonly IOccasionRepository _occasionRepository;
 
     public InviteUserUseCase(IPresenter<OccasionDTO, Output> presenter, INotify notifier,
-        IOccasionRepository OccasionRepository)
+        IOccasionRepository occasionRepository)
     {
         _presenter = presenter;
         _notifier = notifier;
-        _OccasionRepository = OccasionRepository;
+        _occasionRepository = occasionRepository;
     }
 
     public async Task<Output> Execute(IInviteUserDTO data)
     {
-        var Occasion = await getOccasionOrThrow(data);
+        var occasion = await getOccasionOrThrow(data);
 
-        await sendInvitation(Occasion, data.Receiver);
+        await sendInvitation(occasion, data.Receiver);
 
-        return presentResult(Occasion);
+        return presentResult(occasion);
     }
 
 
     private async Task<Occasion> getOccasionOrThrow(IInviteUserDTO data)
     {
-        var Occasion = await _OccasionRepository.Find(data.OccasionId);
+        var occasion = await _occasionRepository.Find(data.OccasionId);
 
-        if (Occasion == null)
+        if (occasion == null)
         {
             throw new OccasionDoesNotExistException();
         }
 
-        return Occasion;
+        return occasion;
     }
 
-    private async Task sendInvitation(Occasion Occasion, string receiver)
+    private async Task sendInvitation(Occasion occasion, string receiver)
     {
-        var message = MessageFactory.CreateInvitation(receiver, Occasion.Description);
+        var message = MessageFactory.CreateInvitation(receiver, occasion.Description);
         await _notifier.Notify(message);
     }
 
-    private Output presentResult(Occasion Occasion)
+    private Output presentResult(Occasion occasion)
     {
-        var dto = OccasionDTO.From(Occasion!);
+        var dto = OccasionDTO.From(occasion!);
         return _presenter.Present(dto);
     }
 }

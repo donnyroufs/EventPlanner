@@ -20,9 +20,9 @@ public class CreateOccasionUseCase<Output> : IUseCase<ICreateOccasionDTO, Output
 
     public async Task<Output> Execute(ICreateOccasionDTO data)
     {
-        var Occasion = new Occasion(data.Description, data.Days);
+        var occasion = new Occasion(data.Description, data.Days);
 
-        var createdOccasion = await _OccasionRepository.Save(Occasion);
+        var createdOccasion = await _OccasionRepository.Save(occasion);
 
         return _presenter.Present(OccasionDTO.From(createdOccasion));
     }
