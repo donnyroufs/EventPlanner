@@ -10,11 +10,11 @@ namespace EventPlanner.Application.UseCases;
 public class CreateOccasionUseCase<Output> : IUseCase<ICreateOccasionDTO, Output>
 {
     private IPresenter<OccasionDTO, Output> _presenter { get; init; }
-    private IOccasionRepository _OccasionRepository { get; }
+    private IOccasionRepository _occasionRepository { get; }
 
-    public CreateOccasionUseCase(IOccasionRepository OccasionRepository, IPresenter<OccasionDTO, Output> presenter)
+    public CreateOccasionUseCase(IOccasionRepository occasionRepository, IPresenter<OccasionDTO, Output> presenter)
     {
-        _OccasionRepository = OccasionRepository;
+        _occasionRepository = occasionRepository;
         _presenter = presenter;
     }
 
@@ -22,7 +22,7 @@ public class CreateOccasionUseCase<Output> : IUseCase<ICreateOccasionDTO, Output
     {
         var occasion = new Occasion(data.Description, data.Days);
 
-        var createdOccasion = await _OccasionRepository.Save(occasion);
+        var createdOccasion = await _occasionRepository.Save(occasion);
 
         return _presenter.Present(OccasionDTO.From(createdOccasion));
     }
