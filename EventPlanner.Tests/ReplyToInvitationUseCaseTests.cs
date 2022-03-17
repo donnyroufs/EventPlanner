@@ -23,18 +23,24 @@ public class ReplyToInvitationUseCaseTests
     public async Task UpdatesTheInvitationStatus(bool accepted, InvitationStatus status)
     {
         var presenter = new Presenter();
+        var notifier = Mock.Of<INotify>();
         var repository = new Mock<IInvitationRepository>();
         repository
             .Setup(x => x.Find(It.IsAny<Guid>()))!
             .ReturnsAsync(new Invitation(Guid.NewGuid(), InvitationStatus.Pending, "john@gmail.com"));
 
-        var useCase = new ReplyToInvitationUseCase<ReplyToInvitationViewModel>(presenter, repository.Object);
+        var useCase = new ReplyToInvitationUseCase<ReplyToInvitationViewModel>(presenter, repository.Object, notifier);
 
         var dto = new ReplyToInvitationDTO(Guid.Empty, accepted, "john@gmail.com");
         var result = await useCase.Execute(dto);
 
         repository.Verify(x => x.Save(It.IsAny<Invitation>()), Times.Once);
         result.Status.Should().Be(status);
+    }
+
+    [Test]
+    public async Task NotifiesTheSystemThatSomeoneHasRepliedToTheirInvitation()
+    {
     }
 
     private class ReplyToInvitationViewModel
