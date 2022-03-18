@@ -8,7 +8,7 @@ using EventPlanner.Shared;
 
 namespace EventPlanner.Application.UseCases;
 
-public class InviteUserUseCase<Output> : IUseCase<IInviteUserDTO, Output>
+public class InviteUserUseCase<Output> : IUseCase<InviteUserDTO, Output>
 {
     private readonly IPresenter<OccasionDTO, Output> _presenter;
     private readonly INotify _notifier;
@@ -22,7 +22,7 @@ public class InviteUserUseCase<Output> : IUseCase<IInviteUserDTO, Output>
         _occasionRepository = occasionRepository;
     }
 
-    public async Task<Output> Execute(IInviteUserDTO data)
+    public async Task<Output> Execute(InviteUserDTO data)
     {
         var occasion = await getOccasionOrThrow(data);
 
@@ -32,7 +32,7 @@ public class InviteUserUseCase<Output> : IUseCase<IInviteUserDTO, Output>
     }
 
 
-    private async Task<Occasion> getOccasionOrThrow(IInviteUserDTO data)
+    private async Task<Occasion> getOccasionOrThrow(InviteUserDTO data)
     {
         var occasion = await _occasionRepository.Find(data.OccasionId);
 

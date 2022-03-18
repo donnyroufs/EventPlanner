@@ -2,14 +2,14 @@ using System;
 
 namespace EventPlanner.Application.DTOs;
 
-public class InviteUserDTO : IInviteUserDTO
+public class InviteUserDTO
 {
     public Guid OccasionId { get; init; }
     public string Receiver { get; init; }
 
-    public InviteUserDTO(Guid OccasionId, string receiver)
+    public InviteUserDTO(Guid occasionId, string receiver)
     {
-        OccasionId = OccasionId;
+        OccasionId = occasionId;
         Receiver = receiver;
     }
 }

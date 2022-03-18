@@ -7,18 +7,18 @@ using EventPlanner.Shared;
 
 namespace EventPlanner.Application.UseCases;
 
-public class CreateOccasionUseCase<Output> : IUseCase<ICreateOccasionDTO, Output>
+public class CreateOccasionUseCase<Output> : IUseCase<CreateOccasionDTO, Output>
 {
-    private IPresenter<OccasionDTO, Output> _presenter { get; init; }
+    private ICreateOccasionPresenter<Output> _presenter { get; init; }
     private IOccasionRepository _occasionRepository { get; }
 
-    public CreateOccasionUseCase(IOccasionRepository occasionRepository, IPresenter<OccasionDTO, Output> presenter)
+    public CreateOccasionUseCase(IOccasionRepository occasionRepository, ICreateOccasionPresenter<Output> presenter)
     {
         _occasionRepository = occasionRepository;
         _presenter = presenter;
     }
 
-    public async Task<Output> Execute(ICreateOccasionDTO data)
+    public async Task<Output> Execute(CreateOccasionDTO data)
     {
         var occasion = new Occasion(data.Description, data.Days);
 

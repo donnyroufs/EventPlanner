@@ -50,7 +50,7 @@ public class GetOccasionsByRange
         result.Should().BeEquivalentTo(expectedResult);
     }
 
-    private class Presenter : IPresenter<List<OccasionDTO>, OccasionsViewModel>
+    private class Presenter : IGetOccasionsByRangePresenter<OccasionsViewModel>
     {
         public OccasionsViewModel Present(List<OccasionDTO> data)
         {

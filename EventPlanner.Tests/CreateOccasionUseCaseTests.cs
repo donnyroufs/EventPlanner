@@ -36,7 +36,7 @@ public class Tests
             .Setup(x => x.Save(It.IsAny<Occasion>()))
             .Returns(Task.FromResult(occasion));
 
-        ICreateOccasionDTO input = new CreateOccasionDTO(description, days);
+        var input = new CreateOccasionDTO(description, days);
 
         var result = await createOccasionUseCase.Execute(input);
 
@@ -56,7 +56,7 @@ public class Tests
 
         var createOccasionUseCase = new CreateOccasionUseCase<OccasionViewModel>(occasionRepository.Object, presenter);
 
-        ICreateOccasionDTO input = new CreateOccasionDTO(description, days);
+        var input = new CreateOccasionDTO(description, days);
 
         var act = () => createOccasionUseCase.Execute(input);
 
@@ -77,7 +77,7 @@ public class Tests
         }
     }
 
-    private class Presenter : IPresenter<OccasionDTO, OccasionViewModel>
+    private class Presenter : ICreateOccasionPresenter<OccasionViewModel>
     {
         public OccasionViewModel Present(OccasionDTO data)
         {

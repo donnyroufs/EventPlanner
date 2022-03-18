@@ -5,6 +5,7 @@ using EventPlanner.Application.Interfaces;
 using EventPlanner.Application.UseCases;
 using EventPlanner.Domain.Entities;
 using EventPlanner.Domain.Enums;
+using EventPlanner.Domain.ValueObjects;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
@@ -14,10 +15,6 @@ namespace EventPlanner.Tests;
 [TestFixture]
 public class ReplyToInvitationUseCaseTests
 {
-    /*
-     * The invite use-case needs to insert an invitation,
-     * this one will find it, and cast its vote.
-     */
     [TestCase(true, InvitationStatus.Accepted)]
     [TestCase(false, InvitationStatus.Declined)]
     public async Task UpdatesTheInvitationStatus(bool accepted, InvitationStatus status)
@@ -41,6 +38,20 @@ public class ReplyToInvitationUseCaseTests
     [Test]
     public async Task NotifiesTheSystemThatSomeoneHasRepliedToTheirInvitation()
     {
+        var presenter = new Presenter();
+        var notifier = new Mock<INotify>();
+        var repository = new Mock<IInvitationRepository>();
+        repository
+            .Setup(x => x.Find(It.IsAny<Guid>()))!
+            .ReturnsAsync(new Invitation(Guid.NewGuid(), InvitationStatus.Pending, "john@gmail.com"));
+
+        var useCase =
+            new ReplyToInvitationUseCase<ReplyToInvitationViewModel>(presenter, repository.Object, notifier.Object);
+
+        var dto = new ReplyToInvitationDTO(Guid.Empty, true, "john@gmail.com");
+        await useCase.Execute(dto);
+
+        notifier.Verify(x => x.Notify(It.IsAny<Message>()), Times.Once);
     }
 
     private class ReplyToInvitationViewModel
