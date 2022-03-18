@@ -19,7 +19,7 @@ public class GetOccasionsByRangeUseCase<Output> : IUseCase<GetOccasionsByRangeDT
 
     public async Task<Output> Execute(GetOccasionsByRangeDTO data)
     {
-        var occasions = await _repository.FindByRange(data.OccassionId, data.Range);
+        var occasions = await _repository.FindByRange(data.Range);
 
         return _presenter.Present(occasions.Select(OccasionDTO.From).ToList());
     }

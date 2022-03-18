@@ -35,12 +35,12 @@ public class GetOccasionsByRange
         };
 
         repository
-            .Setup(x => x.FindByRange(Guid.Empty, It.IsAny<DateRange>()))
+            .Setup(x => x.FindByRange(It.IsAny<DateRange>()))
             .ReturnsAsync(occasions);
 
         var useCase = new GetOccasionsByRangeUseCase<OccasionsViewModel>(presenter, repository.Object);
         var range = new DateRange(DateTime.Today, DateTime.Now);
-        var dto = new GetOccasionsByRangeDTO(range, Guid.Empty);
+        var dto = new GetOccasionsByRangeDTO(range);
 
         var result = await useCase.Execute(dto);
         var occasionViewModels =

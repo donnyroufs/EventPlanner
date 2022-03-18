@@ -66,7 +66,7 @@ public class ReplyToInvitationUseCaseTests
         }
     }
 
-    private class Presenter : IPresenter<InvitationDTO, ReplyToInvitationViewModel>
+    private class Presenter : IReplyToInvitationPresenter<ReplyToInvitationViewModel>
     {
         public ReplyToInvitationViewModel Present(InvitationDTO data)
         {

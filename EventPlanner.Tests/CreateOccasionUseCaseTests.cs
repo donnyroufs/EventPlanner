@@ -45,26 +45,6 @@ public class Tests
         result.Should().BeEquivalentTo(occasionViewModel);
     }
 
-    [Test]
-    public async Task ThrowsAnExceptionWhenNoDaysGiven()
-    {
-        const string description = "my Occasion";
-        var days = new List<DayOfWeek>();
-
-        var presenter = new Presenter();
-        var occasionRepository = new Mock<IOccasionRepository>();
-
-        var createOccasionUseCase = new CreateOccasionUseCase<OccasionViewModel>(occasionRepository.Object, presenter);
-
-        var input = new CreateOccasionDTO(description, days);
-
-        var act = () => createOccasionUseCase.Execute(input);
-
-        await act.Should().ThrowAsync<OccasionRequiresAtleastOneDayException>();
-    }
-
-
-
     private class OccasionViewModel
     {
         public string Description { get; init; }

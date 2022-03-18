@@ -18,6 +18,14 @@ public class Invitation : Entity
         UserEmail = userEmail;
     }
 
+    public Invitation(Guid id, Guid occasionId, InvitationStatus status, string userEmail)
+    {
+        Id = id;
+        OccasionId = occasionId;
+        Status = status;
+        UserEmail = userEmail;
+    }
+
     public void Accept()
     {
         if (Status == InvitationStatus.Accepted)

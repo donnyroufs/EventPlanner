@@ -6,11 +6,9 @@ namespace EventPlanner.Application.DTOs;
 public class GetOccasionsByRangeDTO
 {
     public DateRange Range { get; init; }
-    public Guid OccassionId { get; init; }
 
-    public GetOccasionsByRangeDTO(DateRange range, Guid id)
+    public GetOccasionsByRangeDTO(DateRange range)
     {
         Range = range;
-        OccassionId = id;
     }
 }

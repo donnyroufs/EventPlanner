@@ -9,11 +9,11 @@ namespace EventPlanner.Application.UseCases;
 
 public class ReplyToInvitationUseCase<Output> : IUseCase<ReplyToInvitationDTO, Output>
 {
-    private readonly IPresenter<InvitationDTO, Output> _presenter;
+    private readonly IReplyToInvitationPresenter<Output> _presenter;
     private readonly IInvitationRepository _invitationRepository;
     private readonly INotify _notifier;
 
-    public ReplyToInvitationUseCase(IPresenter<InvitationDTO, Output> presenter,
+    public ReplyToInvitationUseCase(IReplyToInvitationPresenter<Output> presenter,
         IInvitationRepository invitationRepository, INotify notifier)
     {
         _presenter = presenter;
@@ -25,6 +25,7 @@ public class ReplyToInvitationUseCase<Output> : IUseCase<ReplyToInvitationDTO, O
     {
         var invitation = await _invitationRepository.Find(data.InvitationId);
 
+        // TODO: Remove UserEmail no need to pass data
         updateInvitationStatus(data, invitation);
 
         await _invitationRepository.Save(invitation);
