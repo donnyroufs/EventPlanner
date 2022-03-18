@@ -24,6 +24,8 @@ A work in progress dummy EventPlanner which has a unique use-case and isn't your
 
 - [ ]  Make sure code is consistent, get into "best practices" for C#.
 
+- [ ]  If up for it add an aggregate and merge the two repositories.
+
 - [ ]  Solve TODOs in code if there are any
 
 
