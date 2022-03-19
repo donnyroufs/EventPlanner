@@ -1,4 +1,4 @@
-A work in progress dummy EventPlanner which has a unique use-case and isn't your generic agenda. I'm kidding, I'm talking bullshit. This is just a dummy project to get myself into C# with no intentions for real use. Feel free to review my code to tell me what I could have done differently, on a technical C# level!
+A work in progress EventPlanner which has a unique use-case and isn't your generic agenda. I'm kidding, I'm talking bullshit. This is just a dummy project to get myself into C# with no intentions for real use. Feel free to review my code to tell me what I could have done differently, on a technical C# level!
 
 
 
@@ -6,6 +6,16 @@ A work in progress dummy EventPlanner which has a unique use-case and isn't your
 - [x] Change private method convention to CamelCase
 
 - [ ]  Integration Tests
+
+- [ ] Create aggregate
+
+- [ ] Records and (AutoMapper?)
+
+- [ ] When to use In and Out, when to use init;
+
+- [ ] List vs Collection vs Array
+
+- [ ] Handling null values (e.g. in repo)
 
 - [ ]  Receiver should be a value object
 
@@ -19,13 +29,13 @@ A work in progress dummy EventPlanner which has a unique use-case and isn't your
 
 - [ ]  Replace in memory with psql driver
 
+- [ ]  Setup configuration (for example system email)
+
 - [ ]  Look into deployment
 
 - [ ]  Add authentication
 
 - [ ]  Make sure code is consistent, get into "best practices" for C#.
-
-- [ ]  If up for it add an aggregate and merge the two repositories.
 
 - [ ]  Solve TODOs in code if there are any
 
