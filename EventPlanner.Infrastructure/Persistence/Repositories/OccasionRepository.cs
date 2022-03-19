@@ -42,7 +42,7 @@ public class OccasionRepository : IOccasionRepository
         return new Occasion(model.Id, model.Description, model.Days.Select(x => x.Day).ToList());
     }
 
-    public async Task<List<Occasion>> FindByRange(DateRange range)
+    public async Task<List<Occasion>> FindMany()
     {
         var occasions = await _context.Occasions.Include(x => x.Days).ToListAsync();
 

@@ -10,5 +10,5 @@ public interface IOccasionRepository
 {
     Task<Occasion> Save(Occasion occasion);
     Task<Occasion> Find(Guid id);
-    Task<List<Occasion>> FindByRange(DateRange range);
+    Task<List<Occasion>> FindMany();
 }

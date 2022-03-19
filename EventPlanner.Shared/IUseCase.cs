@@ -6,3 +6,8 @@ public interface IUseCase<Input, Output>
 {
     public Task<Output> Execute(Input data);
 }
+
+public interface IUseCase<Output>
+{
+    public Task<Output> Execute();
+}

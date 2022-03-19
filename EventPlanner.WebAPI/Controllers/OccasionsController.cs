@@ -10,23 +10,23 @@ namespace EventPlanner.WebAPI.Controllers;
 [Route("[controller]")]
 public class OccasionsController : ControllerBase
 {
-    private readonly GetOccasionsByRangeUseCase<OccasionsResponse> _getOccasionsByRangeUseCase;
+    private readonly GetOccasionsUseCase<OccasionsResponse> _getOccasionsUseCase;
     private readonly CreateOccasionUseCase<OccasionResponse> _createOccasionUseCase;
     private readonly GetOccasionUseCase<OccasionWithInvitationsResponse> _getOccasionUseCase;
 
-    public OccasionsController(GetOccasionsByRangeUseCase<OccasionsResponse> getOccasionsByRangeUseCase,
+    public OccasionsController(GetOccasionsUseCase<OccasionsResponse> getOccasionsUseCase,
         CreateOccasionUseCase<OccasionResponse> createOccasionUseCase,
         GetOccasionUseCase<OccasionWithInvitationsResponse> getOccasionUseCase)
     {
-        _getOccasionsByRangeUseCase = getOccasionsByRangeUseCase;
+        _getOccasionsUseCase = getOccasionsUseCase;
         _createOccasionUseCase = createOccasionUseCase;
         _getOccasionUseCase = getOccasionUseCase;
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index([FromQuery] GetOccasionsByRangeRequest data)
+    public async Task<IActionResult> Index()
     {
-        var occasions = await _getOccasionsByRangeUseCase.Execute(data.ToDomain());
+        var occasions = await _getOccasionsUseCase.Execute();
 
         return Ok(occasions);
     }

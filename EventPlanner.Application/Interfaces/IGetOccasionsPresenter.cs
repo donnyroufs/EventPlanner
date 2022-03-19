@@ -3,6 +3,6 @@ using EventPlanner.Application.DTOs;
 
 namespace EventPlanner.Application.Interfaces;
 
-public interface IGetOccasionsByRangePresenter<Output> : IPresenter<List<OccasionDTO>, Output>
+public interface IGetOccasionsPresenter<Output> : IPresenter<List<OccasionDTO>, Output>
 {
 }

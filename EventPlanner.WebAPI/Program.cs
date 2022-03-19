@@ -13,8 +13,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddInfrastructure();
 
-builder.Services.AddScoped<IGetOccasionsByRangePresenter<OccasionsResponse>, GetOccasionsByRangePresenter>();
-builder.Services.AddScoped<GetOccasionsByRangeUseCase<OccasionsResponse>>();
+builder.Services.AddScoped<IGetOccasionsPresenter<OccasionsResponse>, GetOccasionsPresenter>();
+builder.Services.AddScoped<GetOccasionsUseCase<OccasionsResponse>>();
 
 builder.Services.AddScoped<ICreateOccasionPresenter<OccasionResponse>, CreateOccasionPresenter>();
 builder.Services.AddScoped<CreateOccasionUseCase<OccasionResponse>>();

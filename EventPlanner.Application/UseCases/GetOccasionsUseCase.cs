@@ -6,20 +6,20 @@ using EventPlanner.Shared;
 
 namespace EventPlanner.Application.UseCases;
 
-public class GetOccasionsByRangeUseCase<Output> : IUseCase<GetOccasionsByRangeDTO, Output>
+public class GetOccasionsUseCase<Output> : IUseCase<Output>
 {
-    private readonly IGetOccasionsByRangePresenter<Output> _presenter;
+    private readonly IGetOccasionsPresenter<Output> _presenter;
     private readonly IOccasionRepository _repository;
 
-    public GetOccasionsByRangeUseCase(IGetOccasionsByRangePresenter<Output> presenter, IOccasionRepository repository)
+    public GetOccasionsUseCase(IGetOccasionsPresenter<Output> presenter, IOccasionRepository repository)
     {
         _presenter = presenter;
         _repository = repository;
     }
 
-    public async Task<Output> Execute(GetOccasionsByRangeDTO data)
+    public async Task<Output> Execute()
     {
-        var occasions = await _repository.FindByRange(data.Range);
+        var occasions = await _repository.FindMany();
 
         return _presenter.Present(occasions.Select(OccasionDTO.From).ToList());
     }

@@ -4,7 +4,7 @@ using EventPlanner.WebAPI.Responses;
 
 namespace EventPlanner.WebAPI.Presenters;
 
-public class GetOccasionsByRangePresenter : IGetOccasionsByRangePresenter<OccasionsResponse>
+public class GetOccasionsPresenter : IGetOccasionsPresenter<OccasionsResponse>
 {
     public OccasionsResponse Present(List<OccasionDTO> data)
     {

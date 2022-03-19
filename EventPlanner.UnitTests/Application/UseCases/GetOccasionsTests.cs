@@ -6,7 +6,6 @@ using EventPlanner.Application.DTOs;
 using EventPlanner.Application.Interfaces;
 using EventPlanner.Application.UseCases;
 using EventPlanner.Domain.Entities;
-using EventPlanner.Domain.ValueObjects;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
@@ -14,10 +13,10 @@ using NUnit.Framework;
 namespace EventPlanner.UnitTests.Application.UseCases;
 
 [TestFixture]
-public class GetOccasionsByRange
+public class GetOccasions
 {
     [Test]
-    public async Task GetsAllOccasionsWithinAGivenRange()
+    public async Task GetsAllOccasions()
     {
         var presenter = new Presenter();
         var repository = new Mock<IOccasionRepository>();
@@ -35,14 +34,12 @@ public class GetOccasionsByRange
         };
 
         repository
-            .Setup(x => x.FindByRange(It.IsAny<DateRange>()))
+            .Setup(x => x.FindMany())
             .ReturnsAsync(occasions);
 
-        var useCase = new GetOccasionsByRangeUseCase<OccasionsViewModel>(presenter, repository.Object);
-        var range = new DateRange(DateTime.Today, DateTime.Now);
-        var dto = new GetOccasionsByRangeDTO(range);
+        var useCase = new GetOccasionsUseCase<OccasionsViewModel>(presenter, repository.Object);
 
-        var result = await useCase.Execute(dto);
+        var result = await useCase.Execute();
         var occasionViewModels =
             new List<OccasionViewModel>(occasions.Select(x => new OccasionViewModel(x.Description, x.Days)));
         var expectedResult = new OccasionsViewModel(occasionViewModels);
@@ -50,7 +47,7 @@ public class GetOccasionsByRange
         result.Should().BeEquivalentTo(expectedResult);
     }
 
-    private class Presenter : IGetOccasionsByRangePresenter<OccasionsViewModel>
+    private class Presenter : IGetOccasionsPresenter<OccasionsViewModel>
     {
         public OccasionsViewModel Present(List<OccasionDTO> data)
         {
