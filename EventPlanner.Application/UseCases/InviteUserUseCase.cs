@@ -27,7 +27,7 @@ public class InviteUserUseCase<Output> : IUseCase<InviteUserDTO, Output>
 
     public async Task<Output> Execute(InviteUserDTO data)
     {
-        var occasion = await getOccasionOrThrow(data);
+        var occasion = await GetOccasionOrThrow(data);
 
         // TODO: If an invitation exists then resend
 
@@ -35,13 +35,13 @@ public class InviteUserUseCase<Output> : IUseCase<InviteUserDTO, Output>
 
         await _invitationRepository.Save(invitation);
 
-        await sendInvitation(occasion, data.Receiver);
+        await SendInvitation(occasion, data.Receiver);
 
-        return presentResult(occasion, invitation);
+        return PresentResult(occasion, invitation);
     }
 
 
-    private async Task<Occasion> getOccasionOrThrow(InviteUserDTO data)
+    private async Task<Occasion> GetOccasionOrThrow(InviteUserDTO data)
     {
         var occasion = await _occasionRepository.Find(data.OccasionId);
 
@@ -53,13 +53,13 @@ public class InviteUserUseCase<Output> : IUseCase<InviteUserDTO, Output>
         return occasion;
     }
 
-    private async Task sendInvitation(Occasion occasion, string receiver)
+    private async Task SendInvitation(Occasion occasion, string receiver)
     {
         var message = MessageFactory.CreateInvitation(receiver, occasion.Description);
         await _notifier.Notify(message);
     }
 
-    private Output presentResult(Occasion occasion, Invitation invitation)
+    private Output PresentResult(Occasion occasion, Invitation invitation)
     {
         var dto = OccasionWithInvitationDTO.From(InvitationDTO.From(invitation), OccasionDTO.From(occasion));
 

@@ -13,21 +13,21 @@ public class Occasion : Entity
 
     public Occasion(string description, List<DayOfWeek> days)
     {
-        throwWhenInvalidInput(description, days);
+        ThrowWhenInvalidInput(description, days);
         Description = description;
         Days = days;
     }
 
     public Occasion(Guid id, string description, List<DayOfWeek> days)
     {
-        throwWhenInvalidInput(description, days);
+        ThrowWhenInvalidInput(description, days);
 
         Id = id;
         Description = description;
         Days = days;
     }
 
-    private void throwWhenInvalidInput(string description, List<DayOfWeek> days)
+    private void ThrowWhenInvalidInput(string description, List<DayOfWeek> days)
     {
         if (!days.Any()) throw new ValidationException("An occasion requires at least one day");
         if (string.IsNullOrEmpty(description)) throw new ValidationException("A description cannot be empty");

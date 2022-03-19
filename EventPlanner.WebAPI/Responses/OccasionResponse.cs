@@ -17,11 +17,11 @@ public class OccasionResponse
 
     public static OccasionResponse From(OccasionDTO dto)
     {
-        var days = dto.Days.Select(day => mapEnumToStringValue(day)).ToList();
+        var days = dto.Days.Select(day => MapEnumToStringValue(day)).ToList();
         return new OccasionResponse(dto.Id, dto.Description, days);
     }
 
-    private static string mapEnumToStringValue(DayOfWeek day)
+    private static string MapEnumToStringValue(DayOfWeek day)
     {
         return Enum.GetName(typeof(DayOfWeek), day)!;
     }

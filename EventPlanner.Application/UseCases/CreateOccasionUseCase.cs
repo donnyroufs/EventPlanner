@@ -9,8 +9,8 @@ namespace EventPlanner.Application.UseCases;
 
 public class CreateOccasionUseCase<Output> : IUseCase<CreateOccasionDTO, Output>
 {
-    private ICreateOccasionPresenter<Output> _presenter { get; init; }
-    private IOccasionRepository _occasionRepository { get; }
+    private readonly ICreateOccasionPresenter<Output> _presenter;
+    private readonly IOccasionRepository _occasionRepository;
 
     public CreateOccasionUseCase(IOccasionRepository occasionRepository, ICreateOccasionPresenter<Output> presenter)
     {

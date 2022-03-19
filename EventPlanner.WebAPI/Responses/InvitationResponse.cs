@@ -16,10 +16,10 @@ public class InvitationResponse
 
     public static InvitationResponse FromDomain(InvitationDTO data)
     {
-        return new InvitationResponse(data.Id, mapEnumToStringValue(data.Status));
+        return new InvitationResponse(data.Id, MapEnumToStringValue(data.Status));
     }
 
-    private static string mapEnumToStringValue(InvitationStatus status)
+    private static string MapEnumToStringValue(InvitationStatus status)
     {
         return Enum.GetName(typeof(InvitationStatus), status)!;
     }

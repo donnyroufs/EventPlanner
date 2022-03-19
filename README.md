@@ -3,8 +3,9 @@ A work in progress dummy EventPlanner which has a unique use-case and isn't your
 
 
 ## Todos
+- [x] Change private method convention to CamelCase
 
-* [ ]  Integration Tests
+- [ ]  Integration Tests
 
 - [ ]  Receiver should be a value object
 

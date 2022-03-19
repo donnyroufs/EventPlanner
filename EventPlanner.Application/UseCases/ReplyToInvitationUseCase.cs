@@ -26,16 +26,16 @@ public class ReplyToInvitationUseCase<Output> : IUseCase<ReplyToInvitationDTO, O
         var invitation = await _invitationRepository.Find(data.InvitationId);
 
         // TODO: Remove UserEmail no need to pass data
-        updateInvitationStatus(data, invitation);
+        UpdateInvitationStatus(data, invitation);
 
         await _invitationRepository.Save(invitation);
 
-        await notifyAdmin(data);
+        await NotifyAdmin(data);
 
         return _presenter.Present(InvitationDTO.From(invitation));
     }
 
-    private async Task notifyAdmin(ReplyToInvitationDTO data)
+    private async Task NotifyAdmin(ReplyToInvitationDTO data)
     {
         var message =
             MessageFactory.CreateRepliedToInvitation(data.UserEmail, data.InvitationId);
@@ -43,7 +43,7 @@ public class ReplyToInvitationUseCase<Output> : IUseCase<ReplyToInvitationDTO, O
         await _notifier.Notify(message);
     }
 
-    private void updateInvitationStatus(ReplyToInvitationDTO data, Invitation invitation)
+    private void UpdateInvitationStatus(ReplyToInvitationDTO data, Invitation invitation)
     {
         if (data.Accepted)
         {
