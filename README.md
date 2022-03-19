@@ -24,6 +24,10 @@ A work in progress EventPlanner which has a unique use-case and isn't your gener
 
 - [ ]  Receiver should be a value object
 
+- [ ] Look into usage of enums, what about mapping tot strings?
+
+- [ ] Add facade for use-cases
+
 - [ ]  Reset invitations each week and resend them.
 
 - [ ]  Allow user to set a re-occuring reply (e.g. accept occasion at all times)
