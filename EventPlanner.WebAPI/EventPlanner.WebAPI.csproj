@@ -8,12 +8,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\EventPlanner.Application\EventPlanner.Application.csproj" />
-      <ProjectReference Include="..\EventPlanner.Infrastructure\EventPlanner.Infrastructure.csproj" />
+        <ProjectReference Include="..\EventPlanner.Application\EventPlanner.Application.csproj"/>
+        <ProjectReference Include="..\EventPlanner.Infrastructure\EventPlanner.Infrastructure.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="..\EventPlanner.IntegrationTests\EventPlanner.IntegrationTests.csproj"/>
     </ItemGroup>
 
 </Project>

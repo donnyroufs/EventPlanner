@@ -7,6 +7,7 @@ public class AppDbContext : DbContext
 {
     public DbSet<OccasionModel> Occasions { get; set; }
     public DbSet<InvitationModel> Invitations { get; set; }
+    public DbSet<OccasionDaysModel> OccasionDays { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

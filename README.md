@@ -8,16 +8,19 @@ A work in progress EventPlanner which has a unique use-case and isn't your gener
 - [x] Add virtual folders (src/tests)
 
 - [ ] Integration Tests
+  - Refactor get occasions by given range since there's no range!
 
-- [ ] Create aggregate
+- [ ] Handling null values (e.g. in repo)
+
+- [ ] Add filters (error handling, includes integration tests)
+
+- [ ] Create aggregate, do mutations in memory and store events to then persist. (can be done without events cus of ef core)
 
 - [ ] Records and (AutoMapper?)
 
 - [ ] When to use In and Out, when to use init;
 
 - [ ] List vs Collection vs Array
-
-- [ ] Handling null values (e.g. in repo)
 
 - [ ]  Receiver should be a value object
 

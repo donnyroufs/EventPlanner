@@ -27,7 +27,7 @@ public class InvitationsController : ControllerBase
         return Created(nameof(Store), new InvitationResponse(result.Id, result.Status));
     }
 
-    [HttpPost("/occasions/reply")]
+    [HttpPost("/occasions/{id}/invitations/reply")]
     public async Task<IActionResult> ReplyToInvitation([FromBody] ReplyToInvitationRequest data)
     {
         var result = await _replyToInvitationUseCase.Execute(data.ToDomain());

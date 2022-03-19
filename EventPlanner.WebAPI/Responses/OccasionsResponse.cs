@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using EventPlanner.Application.DTOs;
 
 namespace EventPlanner.WebAPI.Responses;
@@ -5,6 +6,11 @@ namespace EventPlanner.WebAPI.Responses;
 public class OccasionsResponse
 {
     public List<OccasionResponse> Occasions { get; init; }
+
+    [JsonConstructor]
+    public OccasionsResponse()
+    {
+    }
 
     public OccasionsResponse(List<OccasionResponse> occasions)
     {
