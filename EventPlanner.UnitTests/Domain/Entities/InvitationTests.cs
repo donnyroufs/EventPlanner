@@ -5,7 +5,7 @@ using EventPlanner.Domain.Exceptions;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace EventPlanner.Tests;
+namespace EventPlanner.UnitTests.Domain.Entities;
 
 [TestFixture]
 public class InvitationTests

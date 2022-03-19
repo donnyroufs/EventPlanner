@@ -5,12 +5,11 @@ using EventPlanner.Application.DTOs;
 using EventPlanner.Application.Interfaces;
 using EventPlanner.Application.UseCases;
 using EventPlanner.Domain.Entities;
-using EventPlanner.Domain.Exceptions;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 
-namespace EventPlanner.Tests;
+namespace EventPlanner.UnitTests.Application.UseCases;
 
 [TestFixture]
 public class Tests

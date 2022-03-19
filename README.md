@@ -5,7 +5,9 @@ A work in progress EventPlanner which has a unique use-case and isn't your gener
 ## Todos
 - [x] Change private method convention to CamelCase
 
-- [ ]  Integration Tests
+- [x] Add virtual folders (src/tests)
+
+- [ ] Integration Tests
 
 - [ ] Create aggregate
 

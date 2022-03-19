@@ -10,7 +10,7 @@ using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 
-namespace EventPlanner.Tests;
+namespace EventPlanner.UnitTests.Application.UseCases;
 
 [TestFixture]
 public class ReplyToInvitationUseCaseTests
