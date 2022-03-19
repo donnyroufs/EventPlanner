@@ -7,7 +7,7 @@ A work in progress EventPlanner which has a unique use-case and isn't your gener
 
 - [x] Add virtual folders (src/tests)
 
-- [ ] Integration Tests
+- [x] Integration Tests
   - Refactor get occasions by given range since there's no range!
 
 - [ ] Handling null values (e.g. in repo)
