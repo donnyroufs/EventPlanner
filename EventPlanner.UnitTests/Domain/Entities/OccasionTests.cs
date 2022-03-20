@@ -12,13 +12,13 @@ public class OccasionTests
 {
     [TestCase("", null)]
     [TestCase("", DayOfWeek.Friday)]
-    public void ShouldThrowUponBadInput(string description, DayOfWeek day)
+    public void ShouldThrowUponBadInput(string description, DayOfWeek? day)
     {
         var days = new List<DayOfWeek>();
 
-        if (day != null)
+        if (day is not null)
         {
-            days.Add(day);
+            days.Add(day.Value);
         }
 
         var act = () => new Occasion("", days);

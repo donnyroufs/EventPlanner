@@ -29,11 +29,11 @@ public class InvitationRepository : IInvitationRepository
         return invitation;
     }
 
-    public async Task<Invitation> Find(Guid id)
+    public async Task<Invitation?> Find(Guid id)
     {
-        var foundInvitation = await _context.FindAsync<InvitationModel>(id);
+        var foundInvitation = await _context.Invitations.FirstOrDefaultAsync(inv => inv.Id == id);
 
-        if (foundInvitation == null)
+        if (foundInvitation is null)
         {
             return null;
         }

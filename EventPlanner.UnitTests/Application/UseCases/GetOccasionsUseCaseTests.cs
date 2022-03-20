@@ -13,7 +13,7 @@ using NUnit.Framework;
 namespace EventPlanner.UnitTests.Application.UseCases;
 
 [TestFixture]
-public class GetOccasions
+public class GetOccasionsUseCaseTests
 {
     [Test]
     public async Task GetsAllOccasions()

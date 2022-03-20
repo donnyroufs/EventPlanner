@@ -1,7 +1,5 @@
 A work in progress EventPlanner which has a unique use-case and isn't your generic agenda. I'm kidding, I'm talking bullshit. This is just a dummy project to get myself into C# with no intentions for real use. Feel free to review my code to tell me what I could have done differently, on a technical C# level!
 
-
-
 ## Todos
 - [x] Change private method convention to CamelCase
 
@@ -10,7 +8,7 @@ A work in progress EventPlanner which has a unique use-case and isn't your gener
 - [x] Integration Tests
   - Refactor get occasions by given range since there's no range!
 
-- [ ] Handling null values (e.g. in repo)
+- [x] Handling null values (e.g. in repo)
 
 - [ ] Add filters (error handling, includes integration tests)
 

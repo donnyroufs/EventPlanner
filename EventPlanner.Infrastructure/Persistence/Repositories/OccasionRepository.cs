@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using EventPlanner.Domain.Entities;
-using EventPlanner.Domain.ValueObjects;
 using EventPlanner.Application.Interfaces;
 using EventPlanner.Infrastructure.Persistence.Models;
 
@@ -33,11 +32,15 @@ public class OccasionRepository : IOccasionRepository
         return occasion;
     }
 
-    public async Task<Occasion> Find(Guid id)
+    public async Task<Occasion?> Find(Guid id)
     {
-        var model = await _context.Occasions.Include(x => x.Days).FirstAsync(occasionModel => occasionModel.Id == id);
+        var model = await _context.Occasions.Include(x => x.Days)
+            .FirstOrDefaultAsync(occasionModel => occasionModel.Id == id);
 
-        if (model == null) return null;
+        if (model is null)
+        {
+            return null;
+        }
 
         return new Occasion(model.Id, model.Description, model.Days.Select(x => x.Day).ToList());
     }

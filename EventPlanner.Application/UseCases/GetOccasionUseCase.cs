@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using EventPlanner.Application.DTOs;
+using EventPlanner.Application.Exceptions;
 using EventPlanner.Application.Interfaces;
 using EventPlanner.Shared;
 
@@ -24,6 +25,11 @@ public class GetOccasionUseCase<Output> : IUseCase<GetOccasionDTO, Output>
     {
         var occasion = await _occasionRepository.Find(data.Id);
         var invitations = await _invitationRepository.FindByOccasionId(data.Id);
+
+        if (occasion is null)
+        {
+            throw new OccasionDoesNotExistException();
+        }
 
         var dto = new OccasionWithInvitationsDTO(OccasionDTO.From(occasion),
             invitations.Select(InvitationDTO.From).ToList());

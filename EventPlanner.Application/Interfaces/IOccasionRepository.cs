@@ -9,6 +9,6 @@ namespace EventPlanner.Application.Interfaces;
 public interface IOccasionRepository
 {
     Task<Occasion> Save(Occasion occasion);
-    Task<Occasion> Find(Guid id);
+    Task<Occasion?> Find(Guid id);
     Task<List<Occasion>> FindMany();
 }

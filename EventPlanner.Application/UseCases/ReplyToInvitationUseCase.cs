@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using EventPlanner.Application.DTOs;
+using EventPlanner.Application.Exceptions;
 using EventPlanner.Application.Interfaces;
 using EventPlanner.Domain.Entities;
 using EventPlanner.Domain.Factories;
@@ -24,6 +25,11 @@ public class ReplyToInvitationUseCase<Output> : IUseCase<ReplyToInvitationDTO, O
     public async Task<Output> Execute(ReplyToInvitationDTO data)
     {
         var invitation = await _invitationRepository.Find(data.InvitationId);
+
+        if (invitation is null)
+        {
+            throw new InvitationDoesNotExistException(data.InvitationId);
+        }
 
         // TODO: Remove UserEmail no need to pass data
         UpdateInvitationStatus(data, invitation);

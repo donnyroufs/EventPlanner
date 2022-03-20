@@ -45,7 +45,7 @@ public class InviteUserUseCase<Output> : IUseCase<InviteUserDTO, Output>
     {
         var occasion = await _occasionRepository.Find(data.OccasionId);
 
-        if (occasion == null)
+        if (occasion is null)
         {
             throw new OccasionDoesNotExistException();
         }

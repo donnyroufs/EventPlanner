@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using EventPlanner.Application.DTOs;
+using EventPlanner.Application.Exceptions;
 using EventPlanner.Application.Interfaces;
 using EventPlanner.Application.UseCases;
 using EventPlanner.Domain.Entities;
@@ -52,6 +53,22 @@ public class ReplyToInvitationUseCaseTests
         await useCase.Execute(dto);
 
         notifier.Verify(x => x.Notify(It.IsAny<Message>()), Times.Once);
+    }
+
+    [Test]
+    public async Task ThrowsWhenTheInvitationDoesNotExist()
+    {
+        var presenter = new Presenter();
+        var notifier = new Mock<INotify>();
+        var repository = new Mock<IInvitationRepository>();
+
+        var useCase =
+            new ReplyToInvitationUseCase<ReplyToInvitationViewModel>(presenter, repository.Object, notifier.Object);
+
+        var dto = new ReplyToInvitationDTO(Guid.Empty, true, "john@gmail.com");
+        var act = () => useCase.Execute(dto);
+
+        await act.Should().ThrowAsync<InvitationDoesNotExistException>();
     }
 
     private class ReplyToInvitationViewModel
