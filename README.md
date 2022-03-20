@@ -12,7 +12,7 @@ A work in progress EventPlanner which has a unique use-case and isn't your gener
 
 - [x] Add filters (error handling, includes integration tests)
 
-- [ ] Refactor Id param in /occasions/:id/invitations
+- [x] Refactor Id param in /occasions/:id/invitations
 
 - [ ] Refactor to have an aggregate
 
@@ -51,5 +51,3 @@ A work in progress EventPlanner which has a unique use-case and isn't your gener
 - [ ] Clean up problem details
 
 - [ ]  Solve TODOs in code if there are any
-
-

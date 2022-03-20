@@ -54,7 +54,6 @@ public class InvitationsControllerTests
 
         var json = JsonConvert.SerializeObject(new InviteUserRequest
         {
-            OccasionId = occasion.Entity.Id,
             Receiver = "john@gmail.com"
         });
 

@@ -20,9 +20,9 @@ public class InvitationsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Store([FromBody] InviteUserRequest data)
+    public async Task<IActionResult> Store([FromBody] InviteUserRequest data, [FromRoute] Guid id)
     {
-        var result = await _inviteUserUseCase.Execute(data.ToDomain());
+        var result = await _inviteUserUseCase.Execute(data.ToDomain(id));
 
         return Created(nameof(Store), new InvitationResponse(result.Id, result.Status));
     }

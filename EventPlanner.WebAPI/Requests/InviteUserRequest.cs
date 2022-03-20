@@ -4,11 +4,10 @@ namespace EventPlanner.WebAPI.Requests;
 
 public class InviteUserRequest
 {
-    public Guid OccasionId { get; init; }
     public string Receiver { get; init; }
 
-    public InviteUserDTO ToDomain()
+    public InviteUserDTO ToDomain(Guid occasionId)
     {
-        return new InviteUserDTO(OccasionId, Receiver);
+        return new InviteUserDTO(occasionId, Receiver);
     }
 }
