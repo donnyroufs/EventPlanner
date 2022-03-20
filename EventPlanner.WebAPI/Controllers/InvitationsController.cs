@@ -27,10 +27,11 @@ public class InvitationsController : ControllerBase
         return Created(nameof(Store), new InvitationResponse(result.Id, result.Status));
     }
 
-    [HttpPost("/occasions/{id}/invitations/reply")]
-    public async Task<IActionResult> ReplyToInvitation([FromBody] ReplyToInvitationRequest data)
+    [HttpPost("/occasions/{id}/invitations/{invitationId}/reply")]
+    public async Task<IActionResult> ReplyToInvitation([FromBody] ReplyToInvitationRequest data,
+        [FromRoute] Guid invitationId)
     {
-        var result = await _replyToInvitationUseCase.Execute(data.ToDomain());
+        var result = await _replyToInvitationUseCase.Execute(data.ToDomain(invitationId));
 
         return Created(nameof(ReplyToInvitation), result);
     }

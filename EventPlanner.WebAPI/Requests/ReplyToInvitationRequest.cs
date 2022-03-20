@@ -1,15 +1,16 @@
+using System.Text.Json.Serialization;
 using EventPlanner.Application.DTOs;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EventPlanner.WebAPI.Requests;
 
 public class ReplyToInvitationRequest
 {
-    public Guid InvitationId { get; init; }
     public string UserEmail { get; init; }
     public bool Accepted { get; init; }
 
-    public ReplyToInvitationDTO ToDomain()
+    public ReplyToInvitationDTO ToDomain(Guid invitationId)
     {
-        return new ReplyToInvitationDTO(InvitationId, Accepted, UserEmail);
+        return new ReplyToInvitationDTO(invitationId, Accepted, UserEmail);
     }
 }

@@ -92,16 +92,87 @@ public class InvitationsControllerTests
         var json = JsonConvert.SerializeObject(new ReplyToInvitationRequest
         {
             Accepted = true,
-            InvitationId = invitation.Entity.Id,
             UserEmail = "john@gmail.com"
         });
 
         var data = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await _client.PostAsync($"/occasions/{occasion.Entity.Id}/invitations/reply", data);
+        var response =
+            await _client.PostAsync($"/occasions/{occasion.Entity.Id}/invitations/{invitation.Entity.Id}/reply", data);
         var jsonString = response.Content.ReadAsStringAsync().Result;
         var responseObj = JsonConvert.DeserializeObject<InvitationResponse>(jsonString);
 
         response.StatusCode.Should().Be(HttpStatusCode.Created);
         responseObj.Status.Should().Be(InvitationStatus.Accepted.ToString());
+    }
+
+    [Test]
+    public async Task ReturnsUnknownEntityProblemDetailsWhenNoInvitationFound()
+    {
+        var occasionId = Guid.NewGuid();
+
+        await _dbContext.Occasions.AddAsync(new OccasionModel
+        {
+            Id = occasionId,
+            Description = "Some description",
+            Days = new List<OccasionDaysModel>
+            {
+                new OccasionDaysModel(DayOfWeek.Friday)
+            }
+        });
+
+        await _dbContext.SaveChangesAsync();
+
+        var requestJson = JsonConvert.SerializeObject(new ReplyToInvitationRequest
+        {
+            Accepted = true,
+            UserEmail = "john@gmail.com"
+        });
+
+        var data = new StringContent(requestJson, Encoding.UTF8, "application/json");
+        var result = await _client.PostAsync($"/occasions/{occasionId}/invitations/{Guid.NewGuid()}/reply", data);
+
+        var json = result.Content.ReadAsStringAsync().Result;
+
+        json.Should().Contain("Unknown entity");
+    }
+
+    [Test]
+    public async Task ReturnsDomainProblemDetailsWhenTryingToCastTheSameVoteTwice()
+    {
+        var occasionId = Guid.NewGuid();
+        var invitationId = Guid.NewGuid();
+
+        await _dbContext.Occasions.AddAsync(new OccasionModel
+        {
+            Id = occasionId,
+            Description = "Some description",
+            Days = new List<OccasionDaysModel>
+            {
+                new OccasionDaysModel(DayOfWeek.Friday)
+            }
+        });
+
+        await _dbContext.Invitations.AddAsync(new InvitationModel
+        {
+            Id = invitationId,
+            Status = InvitationStatus.Accepted,
+            OccasionId = occasionId,
+            UserEmail = "john@gmail.com"
+        });
+
+        await _dbContext.SaveChangesAsync();
+
+        var requestJson = JsonConvert.SerializeObject(new ReplyToInvitationRequest
+        {
+            Accepted = true,
+            UserEmail = "john@gmail.com"
+        });
+
+        var data = new StringContent(requestJson, Encoding.UTF8, "application/json");
+        var result = await _client.PostAsync($"/occasions/{occasionId}/invitations/{invitationId}/reply", data);
+
+        var json = result.Content.ReadAsStringAsync().Result;
+
+        json.Should().Contain("Invalid operation");
     }
 }

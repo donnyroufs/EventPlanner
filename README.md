@@ -10,9 +10,11 @@ A work in progress EventPlanner which has a unique use-case and isn't your gener
 
 - [x] Handling null values (e.g. in repo)
 
-- [ ] Add filters (error handling, includes integration tests)
+- [x] Add filters (error handling, includes integration tests)
 
-- [ ] Create aggregate, do mutations in memory and store events to then persist. (can be done without events cus of ef core)
+- [ ] Refactor Id param in /occasions/:id/invitations
+
+- [ ] Refactor to have an aggregate
 
 - [ ] Records and (AutoMapper?)
 
@@ -40,9 +42,13 @@ A work in progress EventPlanner which has a unique use-case and isn't your gener
 
 - [ ]  Look into deployment
 
+- [ ] Remove Presenters and simply return a DTO (optional)
+
 - [ ]  Add authentication
 
 - [ ]  Make sure code is consistent, get into "best practices" for C#.
+
+- [ ] Clean up problem details
 
 - [ ]  Solve TODOs in code if there are any
 

@@ -17,6 +17,7 @@ using EventPlanner.WebAPI.Responses;
 
 namespace EventPlanner.IntegrationTests;
 
+[TestFixture]
 public class OccasionsControllerTests
 {
     private WebApplicationFactory<Program> _application = null!;
@@ -97,6 +98,15 @@ public class OccasionsControllerTests
     }
 
     [Test]
+    public async Task ReturnsUnknownEntityProblemDetailsWhenNoOccasionFound()
+    {
+        var result = await _client.GetAsync($"/occasions/{Guid.NewGuid()}");
+        var json = result.Content.ReadAsStringAsync().Result;
+
+        json.Should().Contain("Unknown entity");
+    }
+
+    [Test]
     public async Task ShouldCreateAnOccasion()
     {
         var json = JsonConvert.SerializeObject(new CreateOccasionRequest
@@ -116,5 +126,21 @@ public class OccasionsControllerTests
 
         response.StatusCode.Should().Be(HttpStatusCode.Created);
         responseObj.Description.Should().Be("My first occasion");
+    }
+
+    [Test]
+    public async Task ReturnsValidationProblemDetailsWhenNoDaysGiven()
+    {
+        var json = JsonConvert.SerializeObject(new CreateOccasionRequest
+        {
+            Description = "My first occasion",
+            Days = new List<DayOfWeek>()
+        });
+
+        var data = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await _client.PostAsync("/occasions", data);
+        var jsonString = response.Content.ReadAsStringAsync().Result;
+
+        jsonString.Should().Contain("https://docs.eventplanner.com/validation-error");
     }
 }
