@@ -52,18 +52,22 @@ public class InvitationsControllerTests
 
         await _dbContext.SaveChangesAsync();
 
-        var json = JsonConvert.SerializeObject(new InviteUserRequest
+        var request = JsonConvert.SerializeObject(new InviteUserRequest
         {
             Receiver = "john@gmail.com"
         });
 
-        var data = new StringContent(json, Encoding.UTF8, "application/json");
+        var data = new StringContent(request, Encoding.UTF8, "application/json");
         var response = await _client.PostAsync($"/occasions/{occasion.Entity.Id}/invitations", data);
-        var jsonString = response.Content.ReadAsStringAsync().Result;
-        var responseObj = JsonConvert.DeserializeObject<InvitationResponse>(jsonString);
+        var json = response.Content.ReadAsStringAsync().Result;
+        var body = JsonConvert.DeserializeObject<InvitationResponse>(json);
+
+        var responseConfirmation = await _client.GetAsync($"/occasions/{occasion.Entity.Id}");
+        var jsonResponseConfirmation = responseConfirmation.Content.ReadAsStringAsync().Result;
 
         response.StatusCode.Should().Be(HttpStatusCode.Created);
-        responseObj.Status.Should().Be(InvitationStatus.Pending.ToString());
+        body.Status.Should().Be(InvitationStatus.Pending.ToString());
+        jsonResponseConfirmation.Should().Contain(InvitationStatus.Pending.ToString());
     }
 
     [Test]
@@ -81,6 +85,7 @@ public class InvitationsControllerTests
 
         var invitation = await _dbContext.Invitations.AddAsync(new InvitationModel
         {
+            Id = Guid.NewGuid(),
             Status = InvitationStatus.Pending,
             OccasionId = occasion.Entity.Id,
             UserEmail = "john@gmail.com"
@@ -99,7 +104,10 @@ public class InvitationsControllerTests
             await _client.PostAsync($"/occasions/{occasion.Entity.Id}/invitations/{invitation.Entity.Id}/reply", data);
         var jsonString = response.Content.ReadAsStringAsync().Result;
         var responseObj = JsonConvert.DeserializeObject<InvitationResponse>(jsonString);
+        var responseConfirmation = await _client.GetAsync($"/occasions/{occasion.Entity.Id}");
+        var jsonResponseConfirmation = responseConfirmation.Content.ReadAsStringAsync().Result;
 
+        jsonResponseConfirmation.Should().Contain(InvitationStatus.Accepted.ToString());
         response.StatusCode.Should().Be(HttpStatusCode.Created);
         responseObj.Status.Should().Be(InvitationStatus.Accepted.ToString());
     }

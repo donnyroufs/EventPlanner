@@ -38,6 +38,7 @@ public class InviteUserUseCaseTests
         await act.Should().ThrowAsync<OccasionDoesNotExistException>();
     }
 
+    // TODO: Add test for duplicate invitation
     [Test]
     public async Task CreatesTheInvitation()
     {
@@ -62,7 +63,7 @@ public class InviteUserUseCaseTests
 
         await useCase.Execute(dto);
 
-        invitationRepository.Verify(x => x.Save(It.IsAny<Invitation>()), Times.Once);
+        repository.Verify(x => x.Save(It.IsAny<Occasion>()), Times.Once);
     }
 
     [Test]

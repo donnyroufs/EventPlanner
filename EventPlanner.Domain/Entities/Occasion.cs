@@ -6,10 +6,11 @@ using EventPlanner.Shared;
 
 namespace EventPlanner.Domain.Entities;
 
-public class Occasion : Entity
+public class Occasion : AggregateRoot
 {
     public List<DayOfWeek> Days { get; init; }
     public string Description { get; init; }
+    public List<Invitation> Invitations { get; private set; } = new();
 
     public Occasion(string description, List<DayOfWeek> days)
     {
@@ -25,6 +26,39 @@ public class Occasion : Entity
         Id = id;
         Description = description;
         Days = days;
+    }
+
+    public Occasion(Guid id, string description, List<DayOfWeek> days, List<Invitation> invitations)
+    {
+        ThrowWhenInvalidInput(description, days);
+
+        Id = id;
+        Description = description;
+        Days = days;
+        Invitations = invitations;
+    }
+
+    public void AddInvitation(Invitation invitation)
+    {
+        if (Invitations.Exists(inv => inv.Id == invitation.Id))
+        {
+            throw new InvitationAlreadyExists();
+        }
+
+        Invitations.Add(invitation);
+    }
+
+    public void AcceptInvitation(Guid invitationId)
+    {
+        var invitation = Invitations.FirstOrDefault(inv => inv.Id == invitationId);
+
+        if (invitation is null)
+        {
+            // TODO: Refactor and test
+            throw new Exception("Invitation does not exist");
+        }
+
+        invitation.Accept();
     }
 
     private void ThrowWhenInvalidInput(string description, List<DayOfWeek> days)

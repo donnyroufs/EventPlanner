@@ -14,6 +14,8 @@ A work in progress EventPlanner which has a unique use-case and isn't your gener
 
 - [x] Refactor Id param in /occasions/:id/invitations
 
+- [x] Introduce Fixture to generate data for tests
+
 - [ ] Refactor to have an aggregate
 
 - [ ] Records and (AutoMapper?)

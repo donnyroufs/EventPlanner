@@ -16,16 +16,22 @@ public class OccasionRepository : IOccasionRepository
 
     public async Task<Occasion> Save(Occasion occasion)
     {
-        var days = occasion.Days.Select(x => new OccasionDaysModel(x)).ToList();
+        var existingOccasion = await _context.Occasions
+            .Include(x => x.Invitations)
+            .Include(x => x.Days)
+            .FirstOrDefaultAsync(o => o.Id == occasion.Id);
 
-        var model = new OccasionModel
+        var model = OccasionMapper.ToModel(occasion);
+
+        if (existingOccasion is null)
         {
-            Id = occasion.Id,
-            Days = days,
-            Description = occasion.Description
-        };
+            _context.Add(model);
+        }
 
-        _context.Add(model);
+        if (existingOccasion is not null)
+        {
+            await Update(existingOccasion, model);
+        }
 
         await _context.SaveChangesAsync();
 
@@ -34,21 +40,42 @@ public class OccasionRepository : IOccasionRepository
 
     public async Task<Occasion?> Find(Guid id)
     {
-        var model = await _context.Occasions.Include(x => x.Days)
+        var model = await _context.Occasions
+            .AsNoTracking()
+            .Include(x => x.Days)
+            .Include(x => x.Invitations)
             .FirstOrDefaultAsync(occasionModel => occasionModel.Id == id);
 
-        if (model is null)
-        {
-            return null;
-        }
-
-        return new Occasion(model.Id, model.Description, model.Days.Select(x => x.Day).ToList());
+        return model is null ? null : OccasionMapper.ToDomain(model);
     }
 
     public async Task<List<Occasion>> FindMany()
     {
-        var occasions = await _context.Occasions.Include(x => x.Days).ToListAsync();
+        var occasions = await _context.Occasions
+            .AsNoTracking()
+            .Include(x => x.Days)
+            .Include(x => x.Invitations)
+            .ToListAsync();
 
-        return occasions.Select(x => new Occasion(x.Id, x.Description, x.Days.Select(i => i.Day).ToList())).ToList();
+        return occasions.Select(OccasionMapper.ToDomain).ToList();
+    }
+
+    private async Task Update(OccasionModel existingOccasion, OccasionModel model)
+    {
+        _context.Entry(existingOccasion).CurrentValues.SetValues(model);
+
+        foreach (var invitation in model.Invitations)
+        {
+            var existingInvitation = await _context.Invitations.FirstOrDefaultAsync(inv => inv.Id == invitation.Id);
+
+            if (existingInvitation is null)
+            {
+                existingOccasion.Invitations.Add(invitation);
+            }
+            else
+            {
+                _context.Entry(existingOccasion).CurrentValues.SetValues(invitation);
+            }
+        }
     }
 }

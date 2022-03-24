@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using EventPlanner.Application.DTOs;
 using EventPlanner.Application.Exceptions;
@@ -31,13 +32,15 @@ public class InviteUserUseCase<Output> : IUseCase<InviteUserDTO, Output>
 
         // TODO: If an invitation exists then resend
 
-        var invitation = new Invitation(data.OccasionId, InvitationStatus.Pending, data.Receiver);
+        occasion.AddInvitation(new Invitation(data.OccasionId, InvitationStatus.Pending, data.Receiver));
 
-        await _invitationRepository.Save(invitation);
+        await _occasionRepository.Save(occasion);
+
+        // await _invitationRepository.Save(invitation);
 
         await SendInvitation(occasion, data.Receiver);
 
-        return PresentResult(occasion, invitation);
+        return PresentResult(occasion, occasion.Invitations.Last());
     }
 
 

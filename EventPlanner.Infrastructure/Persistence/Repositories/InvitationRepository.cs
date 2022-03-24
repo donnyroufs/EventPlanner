@@ -1,5 +1,6 @@
 using EventPlanner.Domain.Entities;
 using EventPlanner.Application.Interfaces;
+using EventPlanner.Domain.Enums;
 using EventPlanner.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,14 +17,30 @@ public class InvitationRepository : IInvitationRepository
 
     public async Task<Invitation> Save(Invitation invitation)
     {
-        await _context.Invitations.AddAsync(new InvitationModel
-        {
-            Id = invitation.Id,
-            Status = invitation.Status,
-            OccasionId = invitation.OccasionId,
-            UserEmail = invitation.UserEmail
-        });
+        var existingInvitation = await _context.Invitations.FirstOrDefaultAsync(inv => inv.Id == invitation.Id);
 
+        if (existingInvitation is null)
+        {
+            var model = new InvitationModel
+            {
+                Id = invitation.Id,
+                Status = invitation.Status,
+                OccasionId = invitation.OccasionId,
+                UserEmail = invitation.UserEmail
+            };
+
+            _context.Add(model);
+        }
+        else
+        {
+            _context.Entry(existingInvitation).CurrentValues.SetValues(new InvitationModel
+            {
+                Id = invitation.Id,
+                Status = invitation.Status,
+                OccasionId = invitation.OccasionId,
+                UserEmail = invitation.UserEmail
+            });
+        }
         await _context.SaveChangesAsync();
 
         return invitation;
@@ -31,19 +48,20 @@ public class InvitationRepository : IInvitationRepository
 
     public async Task<Invitation?> Find(Guid id)
     {
-        var foundInvitation = await _context.Invitations.FirstOrDefaultAsync(inv => inv.Id == id);
+        var foundInvitation = await _context.Invitations.AsNoTracking().FirstOrDefaultAsync(inv => inv.Id == id);
 
         if (foundInvitation is null)
         {
             return null;
         }
 
-        return new Invitation(foundInvitation.Id, foundInvitation.Status, foundInvitation.UserEmail);
+        return new Invitation(foundInvitation.Id, foundInvitation.OccasionId, foundInvitation.Status,
+            foundInvitation.UserEmail);
     }
 
     public async Task<List<Invitation>> FindByOccasionId(Guid id)
     {
-        var invitations = await _context.Invitations.Where(x => x.OccasionId == id).ToListAsync();
+        var invitations = await _context.Invitations.AsNoTracking().Where(x => x.OccasionId == id).ToListAsync();
 
         return invitations.Select(x => new Invitation(x.Id, x.OccasionId, x.Status, x.UserEmail)).ToList();
     }

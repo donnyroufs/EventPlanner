@@ -123,9 +123,12 @@ public class OccasionsControllerTests
         var response = await _client.PostAsync("/occasions", data);
         var jsonString = response.Content.ReadAsStringAsync().Result;
         var responseObj = JsonConvert.DeserializeObject<OccasionResponse>(jsonString);
+        var responseConfirmation = await _client.GetAsync($"/occasions");
+        var jsonResponseConfirmation = responseConfirmation.Content.ReadAsStringAsync().Result;
 
         response.StatusCode.Should().Be(HttpStatusCode.Created);
         responseObj.Description.Should().Be("My first occasion");
+        jsonResponseConfirmation.Should().Contain("My first occasion");
     }
 
     [Test]
