@@ -22,34 +22,34 @@ A work in progress EventPlanner which has a unique use-case and isn't your gener
 
 - [ ] When to use In and Out, when to use init;
 
-- [ ] List vs Collection vs Array
-
-- [ ]  Receiver should be a value object
+- [ ] List vs Collection vs Array vs IEnumerable (https://www.claudiobernasconi.ch/2013/07/22/when-to-use-ienumerable-icollection-ilist-and-list/)
 
 - [ ] Look into usage of enums, what about mapping tot strings?
 
 - [ ] Add facade for use-cases
 
-- [ ]  Reset invitations each week and resend them.
+- [ ] Remove Presenters and simply return a DTO
 
-- [ ]  Allow user to set a re-occuring reply (e.g. accept occasion at all times)
+- [ ] Receiver should be a value object
+ 
+- [ ] Add a time to an Occasion, value object for day and time.
 
-- [ ]  Add a time to an Occasion, value object for day and time.
+- [ ] Reset invitations each week and resend them.
 
-- [ ]  Add real email service
+- [ ] Allow user to set a re-occuring reply (e.g. accept occasion at all times)
 
-- [ ]  Replace in memory with psql driver
+- [ ] Add real email service
 
-- [ ]  Setup configuration (for example system email)
+- [ ] Replace in memory with psql driver
 
-- [ ]  Look into deployment
+- [ ] Setup configuration (for example system email)
 
-- [ ] Remove Presenters and simply return a DTO (optional)
+- [ ] Look into deployment
 
-- [ ]  Add authentication
+- [ ] Add authentication
 
-- [ ]  Make sure code is consistent, get into "best practices" for C#.
+- [ ] Make sure code is consistent
 
 - [ ] Clean up problem details
 
-- [ ]  Solve TODOs in code if there are any
+- [ ] Solve TODOs in code if there are any
