@@ -107,9 +107,9 @@ public class InvitationsControllerTests
         var responseConfirmation = await _client.GetAsync($"/occasions/{occasion.Entity.Id}");
         var jsonResponseConfirmation = responseConfirmation.Content.ReadAsStringAsync().Result;
 
-        jsonResponseConfirmation.Should().Contain(InvitationStatus.Accepted.ToString());
         response.StatusCode.Should().Be(HttpStatusCode.Created);
         responseObj.Status.Should().Be(InvitationStatus.Accepted.ToString());
+        jsonResponseConfirmation.Should().Contain(InvitationStatus.Accepted.ToString());
     }
 
     [Test]

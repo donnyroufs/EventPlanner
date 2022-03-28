@@ -40,7 +40,7 @@ public class Occasion : AggregateRoot
 
     public void AddInvitation(Invitation invitation)
     {
-        if (Invitations.Exists(inv => inv.Id == invitation.Id))
+        if (Invitations.Exists(inv => inv.UserEmail == invitation.UserEmail))
         {
             throw new InvitationAlreadyExists();
         }
@@ -59,6 +59,20 @@ public class Occasion : AggregateRoot
         }
 
         invitation.Accept();
+    }
+
+
+    public void DeclineInvitation(Guid invitationId)
+    {
+        var invitation = Invitations.FirstOrDefault(inv => inv.Id == invitationId);
+
+        if (invitation is null)
+        {
+            // TODO: Refactor and test
+            throw new Exception("Invitation does not exist");
+        }
+
+        invitation.Decline();
     }
 
     private void ThrowWhenInvalidInput(string description, List<DayOfWeek> days)

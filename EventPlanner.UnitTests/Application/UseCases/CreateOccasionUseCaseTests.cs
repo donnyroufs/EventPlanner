@@ -14,6 +14,18 @@ namespace EventPlanner.UnitTests.Application.UseCases;
 [TestFixture]
 public class Tests
 {
+    private Presenter _presenter = null!;
+    private Mock<IOccasionRepository> _occasionRepository = null!;
+    private CreateOccasionUseCase<OccasionViewModel> _sut = null!;
+
+    [SetUp]
+    public void Setup()
+    {
+        _presenter = new Presenter();
+        _occasionRepository = new Mock<IOccasionRepository>();
+        _sut = new CreateOccasionUseCase<OccasionViewModel>(_occasionRepository.Object, _presenter);
+    }
+
     [Test]
     public async Task CreatesAnOccasion()
     {
@@ -23,23 +35,16 @@ public class Tests
             DayOfWeek.Monday,
             DayOfWeek.Tuesday
         };
-
-        var presenter = new Presenter();
-        var occasionRepository = new Mock<IOccasionRepository>();
-
         var occasion = new Occasion(description, days);
-        var createOccasionUseCase = new CreateOccasionUseCase<OccasionViewModel>(occasionRepository.Object, presenter);
         var occasionViewModel = new OccasionViewModel(description, days);
-
-        occasionRepository
+        _occasionRepository
             .Setup(x => x.Save(It.IsAny<Occasion>()))
             .Returns(Task.FromResult(occasion));
-
         var input = new CreateOccasionDTO(description, days);
 
-        var result = await createOccasionUseCase.Execute(input);
+        var result = await _sut.Execute(input);
 
-        occasionRepository.Verify(o => o.Save(It.IsAny<Occasion>()), Times.Once);
+        _occasionRepository.Verify(o => o.Save(It.IsAny<Occasion>()), Times.Once);
         result.Should().BeOfType<OccasionViewModel>();
         result.Should().BeEquivalentTo(occasionViewModel);
     }

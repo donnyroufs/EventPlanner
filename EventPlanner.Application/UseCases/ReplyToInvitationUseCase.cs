@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using EventPlanner.Application.DTOs;
 using EventPlanner.Application.Exceptions;
@@ -11,34 +12,36 @@ namespace EventPlanner.Application.UseCases;
 public class ReplyToInvitationUseCase<Output> : IUseCase<ReplyToInvitationDTO, Output>
 {
     private readonly IReplyToInvitationPresenter<Output> _presenter;
-    private readonly IInvitationRepository _invitationRepository;
+    private readonly IOccasionRepository _occasionRepository;
     private readonly INotify _notifier;
 
-    public ReplyToInvitationUseCase(IReplyToInvitationPresenter<Output> presenter,
-        IInvitationRepository invitationRepository, INotify notifier)
+    public ReplyToInvitationUseCase(
+        IReplyToInvitationPresenter<Output> presenter,
+        IOccasionRepository occasionRepository,
+        INotify notifier)
     {
         _presenter = presenter;
-        _invitationRepository = invitationRepository;
         _notifier = notifier;
+        _occasionRepository = occasionRepository;
     }
 
+    // TODO: We dont need UserEmail
     public async Task<Output> Execute(ReplyToInvitationDTO data)
     {
-        var invitation = await _invitationRepository.Find(data.InvitationId);
+        var occasion = await _occasionRepository.FindWhereInvitationId(data.InvitationId);
 
-        if (invitation is null)
+        if (occasion is null)
         {
             throw new InvitationDoesNotExistException(data.InvitationId);
         }
 
-        // TODO: Remove UserEmail no need to pass data
-        UpdateInvitationStatus(data, invitation);
+        UpdateInvitationStatus(data, occasion);
 
-        await _invitationRepository.Save(invitation);
+        await _occasionRepository.Save(occasion);
 
         await NotifyAdmin(data);
 
-        return _presenter.Present(InvitationDTO.From(invitation));
+        return _presenter.Present(InvitationDTO.From(occasion.Invitations.First()));
     }
 
     private async Task NotifyAdmin(ReplyToInvitationDTO data)
@@ -49,14 +52,14 @@ public class ReplyToInvitationUseCase<Output> : IUseCase<ReplyToInvitationDTO, O
         await _notifier.Notify(message);
     }
 
-    private void UpdateInvitationStatus(ReplyToInvitationDTO data, Invitation invitation)
+    private void UpdateInvitationStatus(ReplyToInvitationDTO data, Occasion occasion)
     {
         if (data.Accepted)
         {
-            invitation.Accept();
+            occasion.AcceptInvitation(data.InvitationId);
             return;
         }
 
-        invitation.Decline();
+        occasion.DeclineInvitation(data.InvitationId);
     }
 }

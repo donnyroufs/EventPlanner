@@ -15,28 +15,22 @@ public class InviteUserUseCase<Output> : IUseCase<InviteUserDTO, Output>
     private readonly IInviteUserPresenter<Output> _presenter;
     private readonly INotify _notifier;
     private readonly IOccasionRepository _occasionRepository;
-    private readonly IInvitationRepository _invitationRepository;
 
     public InviteUserUseCase(IInviteUserPresenter<Output> presenter, INotify notifier,
-        IOccasionRepository occasionRepository, IInvitationRepository invitationRepository)
+        IOccasionRepository occasionRepository)
     {
         _presenter = presenter;
         _notifier = notifier;
         _occasionRepository = occasionRepository;
-        _invitationRepository = invitationRepository;
     }
 
     public async Task<Output> Execute(InviteUserDTO data)
     {
         var occasion = await GetOccasionOrThrow(data);
 
-        // TODO: If an invitation exists then resend
-
         occasion.AddInvitation(new Invitation(data.OccasionId, InvitationStatus.Pending, data.Receiver));
 
         await _occasionRepository.Save(occasion);
-
-        // await _invitationRepository.Save(invitation);
 
         await SendInvitation(occasion, data.Receiver);
 

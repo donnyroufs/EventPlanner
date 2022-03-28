@@ -10,5 +10,6 @@ public interface IOccasionRepository
 {
     Task<Occasion> Save(Occasion occasion);
     Task<Occasion?> Find(Guid id);
+    Task<Occasion?> FindWhereInvitationId(Guid id);
     Task<List<Occasion>> FindMany();
 }

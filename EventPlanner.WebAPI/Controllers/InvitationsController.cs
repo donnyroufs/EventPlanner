@@ -29,7 +29,7 @@ public class InvitationsController : ControllerBase
 
     [HttpPost("/occasions/{id}/invitations/{invitationId}/reply")]
     public async Task<IActionResult> ReplyToInvitation([FromBody] ReplyToInvitationRequest data,
-        [FromRoute] Guid invitationId)
+        [FromRoute(Name = "invitationId")] Guid invitationId)
     {
         var result = await _replyToInvitationUseCase.Execute(data.ToDomain(invitationId));
 

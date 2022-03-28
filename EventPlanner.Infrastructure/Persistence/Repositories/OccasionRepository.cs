@@ -49,6 +49,18 @@ public class OccasionRepository : IOccasionRepository
         return model is null ? null : OccasionMapper.ToDomain(model);
     }
 
+    public async Task<Occasion?> FindWhereInvitationId(Guid id)
+    {
+        var invitation = await _context.Invitations
+            .Where(invitation => invitation.Id == id)
+            .Include(inv => inv.Occasion)
+            .ThenInclude(occasion => occasion.Days)
+            .FirstOrDefaultAsync();
+
+        return invitation is null ? null : OccasionMapper.ToDomain(invitation.Occasion);
+    }
+
+
     public async Task<List<Occasion>> FindMany()
     {
         var occasions = await _context.Occasions
@@ -74,7 +86,7 @@ public class OccasionRepository : IOccasionRepository
             }
             else
             {
-                _context.Entry(existingOccasion).CurrentValues.SetValues(invitation);
+                _context.Entry(existingInvitation).CurrentValues.SetValues(invitation);
             }
         }
     }

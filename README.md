@@ -16,21 +16,25 @@ A work in progress EventPlanner which has a unique use-case and isn't your gener
 
 - [x] Introduce Fixture to generate data for tests
 
-- [ ] Refactor to have an aggregate
+- [x] Refactor to have an aggregate
 
-- [ ] Records and (AutoMapper?)
+- [ ] inject http context in presenters
+
+- [ ] Records
 
 - [ ] When to use In and Out, when to use init;
 
 - [ ] List vs Collection vs Array vs IEnumerable (https://www.claudiobernasconi.ch/2013/07/22/when-to-use-ienumerable-icollection-ilist-and-list/)
 
-- [ ] Look into usage of enums, what about mapping tot strings?
+- [ ] Look into usage of enums, what about mapping to strings?
 
 - [ ] Add facade for use-cases
 
-- [ ] Remove Presenters and simply return a DTO
+- [ ] AutoMapper, maybe.
 
 - [ ] Receiver should be a value object
+
+- [ ] Move id generation to infra
  
 - [ ] Add a time to an Occasion, value object for day and time.
 

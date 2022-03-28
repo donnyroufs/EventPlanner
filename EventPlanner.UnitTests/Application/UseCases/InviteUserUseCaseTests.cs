@@ -16,24 +16,30 @@ namespace EventPlanner.UnitTests.Application.UseCases;
 [TestFixture]
 public class InviteUserUseCaseTests
 {
+    private InviteUserUseCase<InviteUserViewModel> _sut = null!;
+    private Presenter _presenter = null!;
+    private Mock<INotify> _notifier = null!;
+    private Mock<IOccasionRepository> _repository = null!;
+
+    [SetUp]
+    public void Setup()
+    {
+        _presenter = new Presenter();
+        _notifier = new Mock<INotify>();
+        _repository = new Mock<IOccasionRepository>();
+
+        _sut = new InviteUserUseCase<InviteUserViewModel>(_presenter, _notifier.Object, _repository.Object);
+    }
+
     [Test]
     public async Task ThrowsAnExceptionWhenTheOccasionDoesNotExist()
     {
-        var presenter = new Presenter();
-        var notifier = new Mock<INotify>();
-        var repository = new Mock<IOccasionRepository>();
-        var invitationRepository = Mock.Of<IInvitationRepository>();
-
-        repository
+        _repository
             .Setup(x => x.Find(It.IsAny<Guid>()))!
             .ReturnsAsync((Occasion)null);
 
-        var useCase =
-            new InviteUserUseCase<InviteUserViewModel>(presenter, notifier.Object, repository.Object,
-                invitationRepository);
-
         var dto = new InviteUserDTO(Guid.Empty, "john@gmail.com");
-        var act = () => useCase.Execute(dto);
+        var act = () => _sut.Execute(dto);
 
         await act.Should().ThrowAsync<OccasionDoesNotExistException>();
     }
@@ -42,55 +48,39 @@ public class InviteUserUseCaseTests
     [Test]
     public async Task CreatesTheInvitation()
     {
-        var presenter = new Presenter();
-        var notifier = new Mock<INotify>();
-        var repository = new Mock<IOccasionRepository>();
-        var invitationRepository = new Mock<IInvitationRepository>();
-
         var occasion = new Occasion("My Occasion", new List<DayOfWeek>()
         {
             DayOfWeek.Friday
         });
 
-        repository
+        _repository
             .Setup(x => x.Find(It.IsAny<Guid>()))
             .ReturnsAsync(occasion);
 
-        var useCase =
-            new InviteUserUseCase<InviteUserViewModel>(presenter, notifier.Object, repository.Object,
-                invitationRepository.Object);
         var dto = new InviteUserDTO(occasion.Id, "john@gmail.com");
 
-        await useCase.Execute(dto);
+        await _sut.Execute(dto);
 
-        repository.Verify(x => x.Save(It.IsAny<Occasion>()), Times.Once);
+        _repository.Verify(x => x.Save(It.IsAny<Occasion>()), Times.Once);
     }
 
     [Test]
     public async Task SendsAnInvitation()
     {
-        var presenter = new Presenter();
-        var notifier = new Mock<INotify>();
-        var repository = new Mock<IOccasionRepository>();
-        var invitationRepository = Mock.Of<IInvitationRepository>();
-
         var occasion = new Occasion("My Occasion", new List<DayOfWeek>()
         {
             DayOfWeek.Friday
         });
 
-        repository
+        _repository
             .Setup(x => x.Find(It.IsAny<Guid>()))
             .ReturnsAsync(occasion);
 
-        var useCase =
-            new InviteUserUseCase<InviteUserViewModel>(presenter, notifier.Object, repository.Object,
-                invitationRepository);
         var dto = new InviteUserDTO(occasion.Id, "john@gmail.com");
 
-        await useCase.Execute(dto);
+        await _sut.Execute(dto);
 
-        notifier.Verify(x => x.Notify(It.IsAny<Message>()), Times.Once);
+        _notifier.Verify(x => x.Notify(It.IsAny<Message>()), Times.Once);
     }
 
     private class Presenter : IInviteUserPresenter<InviteUserViewModel>

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoFixture;
 using EventPlanner.Application.DTOs;
 using EventPlanner.Application.Exceptions;
 using EventPlanner.Application.Interfaces;
@@ -15,29 +16,34 @@ namespace EventPlanner.UnitTests.Application.UseCases;
 [TestFixture]
 public class GetOccasionUseCaseTests
 {
+    private Presenter _presenter = null!;
+    private Mock<IOccasionRepository> _occasionRepository = null!;
+    private GetOccasionUseCase<GetOccasionViewModel> _sut = null!;
+
+    [SetUp]
+    public void Setup()
+    {
+        _presenter = new Presenter();
+        _occasionRepository = new Mock<IOccasionRepository>();
+
+        _sut =
+            new GetOccasionUseCase<GetOccasionViewModel>(_presenter, _occasionRepository.Object);
+    }
+
     [Test]
     public async Task ReturnsTheRequestOccasionWithInvitations()
     {
-        var presenter = new Presenter();
-        var occasionRepository = new Mock<IOccasionRepository>();
-        var invitationsRepository = new Mock<IInvitationRepository>();
         var occasionId = Guid.NewGuid();
+        var f = new Fixture();
+        var invitation = f.Create<Invitation>();
 
-        occasionRepository.Setup(x => x.Find(occasionId))
-            .ReturnsAsync(new Occasion("description", new List<DayOfWeek>
-            {
-                DayOfWeek.Friday
-            }));
+        var occasion = f.Build<Occasion>().Do(o => o.AddInvitation(invitation)).Create();
 
-        invitationsRepository.Setup(x => x.FindByOccasionId(occasionId)).ReturnsAsync(new List<Invitation>());
-
-        var useCase =
-            new GetOccasionUseCase<GetOccasionViewModel>(presenter, occasionRepository.Object,
-                invitationsRepository.Object);
+        _occasionRepository.Setup(x => x.Find(occasionId)).ReturnsAsync(occasion);
 
         var dto = new GetOccasionDTO(occasionId);
 
-        var result = await useCase.Execute(dto);
+        var result = await _sut.Execute(dto);
 
         result.Should().BeOfType<GetOccasionViewModel>();
     }
@@ -45,18 +51,11 @@ public class GetOccasionUseCaseTests
     [Test]
     public async Task ShouldThrowWhenOccasionDoesNotExist()
     {
-        var presenter = new Presenter();
-        var occasionRepository = new Mock<IOccasionRepository>();
-        var invitationsRepository = new Mock<IInvitationRepository>();
         var occasionId = Guid.NewGuid();
-
-        var useCase =
-            new GetOccasionUseCase<GetOccasionViewModel>(presenter, occasionRepository.Object,
-                invitationsRepository.Object);
 
         var dto = new GetOccasionDTO(occasionId);
 
-        var act = () => useCase.Execute(dto);
+        var act = () => _sut.Execute(dto);
 
         await act.Should().ThrowAsync<OccasionDoesNotExistException>();
     }

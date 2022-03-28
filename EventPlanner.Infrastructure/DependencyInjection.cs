@@ -11,7 +11,6 @@ public static class DependencyInjection
     {
         services.AddScoped<AppDbContext>();
         services.AddScoped<IOccasionRepository, OccasionRepository>();
-        services.AddScoped<IInvitationRepository, InvitationRepository>();
         services.AddScoped<INotify, LogSendNotifications>();
 
         return services;

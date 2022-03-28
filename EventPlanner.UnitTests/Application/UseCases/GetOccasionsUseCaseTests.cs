@@ -15,11 +15,21 @@ namespace EventPlanner.UnitTests.Application.UseCases;
 [TestFixture]
 public class GetOccasionsUseCaseTests
 {
+    private Presenter _presenter = null!;
+    private Mock<IOccasionRepository> _repository = null!;
+    private GetOccasionsUseCase<OccasionsViewModel> _sut = null!;
+
+    [SetUp]
+    public void Setup()
+    {
+        _presenter = new Presenter();
+        _repository = new Mock<IOccasionRepository>();
+        _sut = new GetOccasionsUseCase<OccasionsViewModel>(_presenter, _repository.Object);
+    }
+
     [Test]
     public async Task GetsAllOccasions()
     {
-        var presenter = new Presenter();
-        var repository = new Mock<IOccasionRepository>();
         var occasions = new List<Occasion>()
         {
             new Occasion("Weekly Dinner", new List<DayOfWeek>()
@@ -32,17 +42,15 @@ public class GetOccasionsUseCaseTests
                 DayOfWeek.Thursday,
             }),
         };
-
-        repository
+        _repository
             .Setup(x => x.FindMany())
             .ReturnsAsync(occasions);
-
-        var useCase = new GetOccasionsUseCase<OccasionsViewModel>(presenter, repository.Object);
-
-        var result = await useCase.Execute();
         var occasionViewModels =
             new List<OccasionViewModel>(occasions.Select(x => new OccasionViewModel(x.Description, x.Days)));
         var expectedResult = new OccasionsViewModel(occasionViewModels);
+
+
+        var result = await _sut.Execute();
 
         result.Should().BeEquivalentTo(expectedResult);
     }

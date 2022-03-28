@@ -11,29 +11,25 @@ public class GetOccasionUseCase<Output> : IUseCase<GetOccasionDTO, Output>
 {
     private readonly IGetOccasionPresenter<Output> _presenter;
     private readonly IOccasionRepository _occasionRepository;
-    private readonly IInvitationRepository _invitationRepository;
 
-    public GetOccasionUseCase(IGetOccasionPresenter<Output> presenter, IOccasionRepository occasionRepository,
-        IInvitationRepository invitationRepository)
+    public GetOccasionUseCase(IGetOccasionPresenter<Output> presenter, IOccasionRepository occasionRepository)
     {
         _presenter = presenter;
         _occasionRepository = occasionRepository;
-        _invitationRepository = invitationRepository;
     }
 
     public async Task<Output> Execute(GetOccasionDTO data)
     {
         var occasion = await _occasionRepository.Find(data.Id);
-        var invitations = await _invitationRepository.FindByOccasionId(data.Id);
 
         if (occasion is null)
         {
             throw new OccasionDoesNotExistException();
         }
 
-        var dto = new OccasionWithInvitationsDTO(OccasionDTO.From(occasion),
-            invitations.Select(InvitationDTO.From).ToList());
-
-        return _presenter.Present(dto);
+        return _presenter.Present(
+            new OccasionWithInvitationsDTO(OccasionDTO.From(occasion),
+                occasion.Invitations.Select(InvitationDTO.From).ToList())
+        );
     }
 }

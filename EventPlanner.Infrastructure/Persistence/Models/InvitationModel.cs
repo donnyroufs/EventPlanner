@@ -10,4 +10,5 @@ public class InvitationModel
     public string UserEmail { get; set; }
     public InvitationStatus Status { get; set; }
     public Guid OccasionId { get; set; }
+    public OccasionModel Occasion { get; set; }
 }
