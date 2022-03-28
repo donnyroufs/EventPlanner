@@ -1,25 +1,23 @@
 using EventPlanner.Application.DTOs;
 using EventPlanner.Application.Interfaces;
 using EventPlanner.WebAPI.Responses;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EventPlanner.WebAPI.Presenters;
 
-public class GetOccasionPresenter : IGetOccasionPresenter<OccasionWithInvitationsResponse>
+public class GetOccasionPresenter : IGetOccasionPresenter
 {
-    // private readonly IHttpContextAccessor _context;
-    //
-    // public GetOccasionPresenter(IHttpContextAccessor context)
-    // {
-    //     _context = context;
-    // }
+    private readonly IHttpContextAccessor _context;
 
-    public OccasionWithInvitationsResponse Present(OccasionWithInvitationsDTO data)
+    public GetOccasionPresenter(IHttpContextAccessor context)
     {
-        // var ok = new OkObjectResult(OccasionWithInvitationsResponse.From(data));
+        _context = context;
+    }
 
-        // _context.HttpContext.Response.WriteAsJsonAsync(ok.Value);
-        // return null;
+    public async Task Present(OccasionWithInvitationsDTO data)
+    {
+        var ok = new OkObjectResult(OccasionWithInvitationsResponse.From(data));
 
-        return OccasionWithInvitationsResponse.From(data);
+        await _context.HttpContext!.Response.WriteAsJsonAsync(ok.Value);
     }
 }

@@ -7,18 +7,18 @@ using EventPlanner.Shared;
 
 namespace EventPlanner.Application.UseCases;
 
-public class GetOccasionUseCase<Output> : IUseCase<GetOccasionDTO, Output>
+public class GetOccasionUseCase : IUseCase<GetOccasionDTO>
 {
-    private readonly IGetOccasionPresenter<Output> _presenter;
+    private readonly IGetOccasionPresenter _presenter;
     private readonly IOccasionRepository _occasionRepository;
 
-    public GetOccasionUseCase(IGetOccasionPresenter<Output> presenter, IOccasionRepository occasionRepository)
+    public GetOccasionUseCase(IGetOccasionPresenter presenter, IOccasionRepository occasionRepository)
     {
         _presenter = presenter;
         _occasionRepository = occasionRepository;
     }
 
-    public async Task<Output> Execute(GetOccasionDTO data)
+    public async Task Execute(GetOccasionDTO data)
     {
         var occasion = await _occasionRepository.Find(data.Id);
 
@@ -27,7 +27,7 @@ public class GetOccasionUseCase<Output> : IUseCase<GetOccasionDTO, Output>
             throw new OccasionDoesNotExistException();
         }
 
-        return _presenter.Present(
+        await _presenter.Present(
             new OccasionWithInvitationsDTO(OccasionDTO.From(occasion),
                 occasion.Invitations.Select(InvitationDTO.From).ToList())
         );

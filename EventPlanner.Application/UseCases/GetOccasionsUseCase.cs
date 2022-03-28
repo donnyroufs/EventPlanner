@@ -6,21 +6,21 @@ using EventPlanner.Shared;
 
 namespace EventPlanner.Application.UseCases;
 
-public class GetOccasionsUseCase<Output> : IUseCase<Output>
+public class GetOccasionsUseCase : IUseCase
 {
-    private readonly IGetOccasionsPresenter<Output> _presenter;
+    private readonly IGetOccasionsPresenter _presenter;
     private readonly IOccasionRepository _repository;
 
-    public GetOccasionsUseCase(IGetOccasionsPresenter<Output> presenter, IOccasionRepository repository)
+    public GetOccasionsUseCase(IGetOccasionsPresenter presenter, IOccasionRepository repository)
     {
         _presenter = presenter;
         _repository = repository;
     }
 
-    public async Task<Output> Execute()
+    public async Task Execute()
     {
         var occasions = await _repository.FindMany();
 
-        return _presenter.Present(occasions.Select(OccasionDTO.From).ToList());
+        await _presenter.Present(occasions.Select(OccasionDTO.From).ToList());
     }
 }

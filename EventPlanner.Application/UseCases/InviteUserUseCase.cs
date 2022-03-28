@@ -10,13 +10,13 @@ using EventPlanner.Shared;
 
 namespace EventPlanner.Application.UseCases;
 
-public class InviteUserUseCase<Output> : IUseCase<InviteUserDTO, Output>
+public class InviteUserUseCase : IUseCase<InviteUserDTO>
 {
-    private readonly IInviteUserPresenter<Output> _presenter;
+    private readonly IInviteUserPresenter _presenter;
     private readonly INotify _notifier;
     private readonly IOccasionRepository _occasionRepository;
 
-    public InviteUserUseCase(IInviteUserPresenter<Output> presenter, INotify notifier,
+    public InviteUserUseCase(IInviteUserPresenter presenter, INotify notifier,
         IOccasionRepository occasionRepository)
     {
         _presenter = presenter;
@@ -24,7 +24,7 @@ public class InviteUserUseCase<Output> : IUseCase<InviteUserDTO, Output>
         _occasionRepository = occasionRepository;
     }
 
-    public async Task<Output> Execute(InviteUserDTO data)
+    public async Task Execute(InviteUserDTO data)
     {
         var occasion = await GetOccasionOrThrow(data);
 
@@ -34,7 +34,7 @@ public class InviteUserUseCase<Output> : IUseCase<InviteUserDTO, Output>
 
         await SendInvitation(occasion, data.Receiver);
 
-        return PresentResult(occasion, occasion.Invitations.Last());
+        await PresentResult(occasion, occasion.Invitations.Last());
     }
 
 
@@ -56,10 +56,10 @@ public class InviteUserUseCase<Output> : IUseCase<InviteUserDTO, Output>
         await _notifier.Notify(message);
     }
 
-    private Output PresentResult(Occasion occasion, Invitation invitation)
+    private async Task PresentResult(Occasion occasion, Invitation invitation)
     {
         var dto = OccasionWithInvitationDTO.From(InvitationDTO.From(invitation), OccasionDTO.From(occasion));
 
-        return _presenter.Present(dto);
+        await _presenter.Present(dto);
     }
 }

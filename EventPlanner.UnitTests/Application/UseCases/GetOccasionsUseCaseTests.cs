@@ -15,16 +15,16 @@ namespace EventPlanner.UnitTests.Application.UseCases;
 [TestFixture]
 public class GetOccasionsUseCaseTests
 {
-    private Presenter _presenter = null!;
+    private Mock<Presenter> _presenter = null!;
     private Mock<IOccasionRepository> _repository = null!;
-    private GetOccasionsUseCase<OccasionsViewModel> _sut = null!;
+    private GetOccasionsUseCase _sut = null!;
 
     [SetUp]
     public void Setup()
     {
-        _presenter = new Presenter();
+        _presenter = new Mock<Presenter>();
         _repository = new Mock<IOccasionRepository>();
-        _sut = new GetOccasionsUseCase<OccasionsViewModel>(_presenter, _repository.Object);
+        _sut = new GetOccasionsUseCase(_presenter.Object, _repository.Object);
     }
 
     [Test]
@@ -50,7 +50,7 @@ public class GetOccasionsUseCaseTests
         var expectedResult = new OccasionsViewModel(occasionViewModels);
 
 
-        var result = await _sut.Execute();
+        await _sut.Execute();
 
         result.Should().BeEquivalentTo(expectedResult);
     }

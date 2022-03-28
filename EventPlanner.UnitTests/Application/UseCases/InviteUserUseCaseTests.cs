@@ -16,19 +16,19 @@ namespace EventPlanner.UnitTests.Application.UseCases;
 [TestFixture]
 public class InviteUserUseCaseTests
 {
-    private InviteUserUseCase<InviteUserViewModel> _sut = null!;
-    private Presenter _presenter = null!;
+    private InviteUserUseCase _sut = null!;
+    private Mock<IInviteUserPresenter> _presenter = null!;
     private Mock<INotify> _notifier = null!;
     private Mock<IOccasionRepository> _repository = null!;
 
     [SetUp]
     public void Setup()
     {
-        _presenter = new Presenter();
+        _presenter = new Mock<IInviteUserPresenter>();
         _notifier = new Mock<INotify>();
         _repository = new Mock<IOccasionRepository>();
 
-        _sut = new InviteUserUseCase<InviteUserViewModel>(_presenter, _notifier.Object, _repository.Object);
+        _sut = new InviteUserUseCase(_presenter.Object, _notifier.Object, _repository.Object);
     }
 
     [Test]
@@ -81,20 +81,5 @@ public class InviteUserUseCaseTests
         await _sut.Execute(dto);
 
         _notifier.Verify(x => x.Notify(It.IsAny<Message>()), Times.Once);
-    }
-
-    private class Presenter : IInviteUserPresenter<InviteUserViewModel>
-    {
-        public InviteUserViewModel Present(OccasionWithInvitationDTO data)
-        {
-            return new InviteUserViewModel();
-        }
-    }
-
-    private class InviteUserViewModel
-    {
-        public InviteUserViewModel()
-        {
-        }
     }
 }

@@ -2,12 +2,12 @@ using System.Threading.Tasks;
 
 namespace EventPlanner.Shared;
 
-public interface IUseCase<Input, Output>
+public interface IUseCase<Input>
 {
-    public Task<Output> Execute(Input data);
+    public Task Execute(Input data);
 }
 
-public interface IUseCase<Output>
+public interface IUseCase
 {
-    public Task<Output> Execute();
+    public Task Execute();
 }

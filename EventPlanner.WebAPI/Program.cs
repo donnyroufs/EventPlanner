@@ -5,7 +5,6 @@ using EventPlanner.Domain.Exceptions;
 using EventPlanner.Infrastructure;
 using EventPlanner.WebAPI.Presenters;
 using EventPlanner.WebAPI.ProblemDetails;
-using EventPlanner.WebAPI.Responses;
 using Hellang.Middleware.ProblemDetails;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,20 +33,20 @@ builder.Services.AddProblemDetails(opts =>
 builder.Services.AddInfrastructure();
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddScoped<IGetOccasionsPresenter<OccasionsResponse>, GetOccasionsPresenter>();
-builder.Services.AddScoped<GetOccasionsUseCase<OccasionsResponse>>();
+builder.Services.AddScoped<IGetOccasionsPresenter, GetOccasionsPresenter>();
+builder.Services.AddScoped<GetOccasionsUseCase>();
 
-builder.Services.AddScoped<ICreateOccasionPresenter<OccasionResponse>, CreateOccasionPresenter>();
-builder.Services.AddScoped<CreateOccasionUseCase<OccasionResponse>>();
+builder.Services.AddScoped<ICreateOccasionPresenter, CreateOccasionPresenter>();
+builder.Services.AddScoped<CreateOccasionUseCase>();
 
-builder.Services.AddScoped<IInviteUserPresenter<InvitationResponse>, InviteUserPresenter>();
-builder.Services.AddScoped<InviteUserUseCase<InvitationResponse>>();
+builder.Services.AddScoped<IInviteUserPresenter, InviteUserPresenter>();
+builder.Services.AddScoped<InviteUserUseCase>();
 
-builder.Services.AddScoped<IReplyToInvitationPresenter<InvitationResponse>, ReplyToInvitationPresenter>();
-builder.Services.AddScoped<ReplyToInvitationUseCase<InvitationResponse>>();
+builder.Services.AddScoped<IReplyToInvitationPresenter, ReplyToInvitationPresenter>();
+builder.Services.AddScoped<ReplyToInvitationUseCase>();
 
-builder.Services.AddScoped<IGetOccasionPresenter<OccasionWithInvitationsResponse>, GetOccasionPresenter>();
-builder.Services.AddScoped<GetOccasionUseCase<OccasionWithInvitationsResponse>>();
+builder.Services.AddScoped<IGetOccasionPresenter, GetOccasionPresenter>();
+builder.Services.AddScoped<GetOccasionUseCase>();
 
 var app = builder.Build();
 

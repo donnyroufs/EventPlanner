@@ -9,14 +9,14 @@ using EventPlanner.Shared;
 
 namespace EventPlanner.Application.UseCases;
 
-public class ReplyToInvitationUseCase<Output> : IUseCase<ReplyToInvitationDTO, Output>
+public class ReplyToInvitationUseCase : IUseCase<ReplyToInvitationDTO>
 {
-    private readonly IReplyToInvitationPresenter<Output> _presenter;
+    private readonly IReplyToInvitationPresenter _presenter;
     private readonly IOccasionRepository _occasionRepository;
     private readonly INotify _notifier;
 
     public ReplyToInvitationUseCase(
-        IReplyToInvitationPresenter<Output> presenter,
+        IReplyToInvitationPresenter presenter,
         IOccasionRepository occasionRepository,
         INotify notifier)
     {
@@ -26,7 +26,7 @@ public class ReplyToInvitationUseCase<Output> : IUseCase<ReplyToInvitationDTO, O
     }
 
     // TODO: We dont need UserEmail
-    public async Task<Output> Execute(ReplyToInvitationDTO data)
+    public async Task Execute(ReplyToInvitationDTO data)
     {
         var occasion = await _occasionRepository.FindWhereInvitationId(data.InvitationId);
 
@@ -41,7 +41,7 @@ public class ReplyToInvitationUseCase<Output> : IUseCase<ReplyToInvitationDTO, O
 
         await NotifyAdmin(data);
 
-        return _presenter.Present(InvitationDTO.From(occasion.Invitations.First()));
+        await _presenter.Present(InvitationDTO.From(occasion.Invitations.First()));
     }
 
     private async Task NotifyAdmin(ReplyToInvitationDTO data)

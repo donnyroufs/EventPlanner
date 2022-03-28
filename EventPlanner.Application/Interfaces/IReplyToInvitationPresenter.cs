@@ -2,6 +2,6 @@ using EventPlanner.Application.DTOs;
 
 namespace EventPlanner.Application.Interfaces;
 
-public interface IReplyToInvitationPresenter<Output> : IPresenter<InvitationDTO, Output>
+public interface IReplyToInvitationPresenter : IPresenter<InvitationDTO>
 {
 }

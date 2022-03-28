@@ -1,6 +1,5 @@
 using EventPlanner.Application.UseCases;
 using EventPlanner.WebAPI.Requests;
-using EventPlanner.WebAPI.Responses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventPlanner.WebAPI.Controllers;
@@ -9,30 +8,26 @@ namespace EventPlanner.WebAPI.Controllers;
 [Route(("/occasions/{id}/[controller]"))]
 public class InvitationsController : ControllerBase
 {
-    private readonly InviteUserUseCase<InvitationResponse> _inviteUserUseCase;
-    private readonly ReplyToInvitationUseCase<InvitationResponse> _replyToInvitationUseCase;
+    private readonly InviteUserUseCase _inviteUserUseCase;
+    private readonly ReplyToInvitationUseCase _replyToInvitationUseCase;
 
-    public InvitationsController(InviteUserUseCase<InvitationResponse> inviteUserUseCase,
-        ReplyToInvitationUseCase<InvitationResponse> replyToInvitationUseCase)
+    public InvitationsController(InviteUserUseCase inviteUserUseCase,
+        ReplyToInvitationUseCase replyToInvitationUseCase)
     {
         _inviteUserUseCase = inviteUserUseCase;
         _replyToInvitationUseCase = replyToInvitationUseCase;
     }
 
     [HttpPost]
-    public async Task<IActionResult> Store([FromBody] InviteUserRequest data, [FromRoute] Guid id)
+    public async Task Store([FromBody] InviteUserRequest data, [FromRoute] Guid id)
     {
-        var result = await _inviteUserUseCase.Execute(data.ToDomain(id));
-
-        return Created(nameof(Store), new InvitationResponse(result.Id, result.Status));
+        await _inviteUserUseCase.Execute(data.ToDomain(id));
     }
 
     [HttpPost("/occasions/{id}/invitations/{invitationId}/reply")]
-    public async Task<IActionResult> ReplyToInvitation([FromBody] ReplyToInvitationRequest data,
+    public async Task ReplyToInvitation([FromBody] ReplyToInvitationRequest data,
         [FromRoute(Name = "invitationId")] Guid invitationId)
     {
-        var result = await _replyToInvitationUseCase.Execute(data.ToDomain(invitationId));
-
-        return Created(nameof(ReplyToInvitation), result);
+        await _replyToInvitationUseCase.Execute(data.ToDomain(invitationId));
     }
 }
