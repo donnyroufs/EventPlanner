@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoFixture;
 using EventPlanner.Application.DTOs;
 using EventPlanner.Application.Exceptions;
 using EventPlanner.Application.Interfaces;
@@ -48,32 +49,28 @@ public class InviteUserUseCaseTests
     [Test]
     public async Task CreatesTheInvitation()
     {
-        var occasion = new Occasion("My Occasion", new List<DayOfWeek>()
-        {
-            DayOfWeek.Friday
-        });
+        var f = new Fixture();
+        var occasion = f.Build<Occasion>().Create();
 
         _repository
-            .Setup(x => x.Find(It.IsAny<Guid>()))
+            .Setup(x => x.Find(It.Is<Guid>(o => o.Equals(occasion.Id))))
             .ReturnsAsync(occasion);
 
         var dto = new InviteUserDTO(occasion.Id, "john@gmail.com");
 
         await _sut.Execute(dto);
 
-        _repository.Verify(x => x.Save(It.IsAny<Occasion>()), Times.Once);
+        _repository.Verify(x => x.Save(It.Is<Occasion>(o => o.Id == occasion.Id)), Times.Once);
     }
 
     [Test]
     public async Task SendsAnInvitation()
     {
-        var occasion = new Occasion("My Occasion", new List<DayOfWeek>()
-        {
-            DayOfWeek.Friday
-        });
+        var f = new Fixture();
+        var occasion = f.Build<Occasion>().Create();
 
         _repository
-            .Setup(x => x.Find(It.IsAny<Guid>()))
+            .Setup(x => x.Find(It.Is<Guid>(g => g.Equals(occasion.Id))))
             .ReturnsAsync(occasion);
 
         var dto = new InviteUserDTO(occasion.Id, "john@gmail.com");

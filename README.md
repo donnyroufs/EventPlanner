@@ -18,13 +18,13 @@ A work in progress EventPlanner which has a unique use-case and isn't your gener
 
 - [x] Refactor to have an aggregate
 
-- [ ] inject http context in presenters
-
-- [ ] Records
+- [x] inject http context in presenters
+- 
+- [ ] List vs Collection vs Array vs IEnumerable (https://www.claudiobernasconi.ch/2013/07/22/when-to-use-ienumerable-icollection-ilist-and-list/)
 
 - [ ] When to use In and Out, when to use init;
 
-- [ ] List vs Collection vs Array vs IEnumerable (https://www.claudiobernasconi.ch/2013/07/22/when-to-use-ienumerable-icollection-ilist-and-list/)
+- [ ] Records
 
 - [ ] Look into usage of enums, what about mapping to strings?
 

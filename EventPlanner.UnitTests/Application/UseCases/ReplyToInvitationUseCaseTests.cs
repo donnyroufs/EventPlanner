@@ -17,19 +17,19 @@ namespace EventPlanner.UnitTests.Application.UseCases;
 [TestFixture]
 public class ReplyToInvitationUseCaseTests
 {
-    private Presenter _presenter = null!;
+    private Mock<IReplyToInvitationPresenter> _presenter = null!;
     private Mock<INotify> _notifier = null!;
     private Mock<IOccasionRepository> _repository = null!;
-    private ReplyToInvitationUseCase<ReplyToInvitationViewModel> _sut = null!;
+    private ReplyToInvitationUseCase _sut = null!;
 
     [SetUp]
     public void Setup()
     {
-        _presenter = new Presenter();
+        _presenter = new();
         _notifier = new Mock<INotify>();
         _repository = new Mock<IOccasionRepository>();
 
-        _sut = new ReplyToInvitationUseCase<ReplyToInvitationViewModel>(_presenter, _repository.Object,
+        _sut = new ReplyToInvitationUseCase(_presenter.Object, _repository.Object,
             _notifier.Object);
     }
 
@@ -45,10 +45,10 @@ public class ReplyToInvitationUseCaseTests
             .ReturnsAsync(occasion);
         var dto = new ReplyToInvitationDTO(invitation.Id, accepted, invitation.UserEmail);
 
-        var result = await _sut.Execute(dto);
+        await _sut.Execute(dto);
 
-        _repository.Verify(x => x.Save(It.IsAny<Occasion>()), Times.Once);
-        result.Status.Should().Be(status);
+        _repository.Verify(x => x.Save(It.Is<Occasion>(o => o.Id == occasion.Id)), Times.Once);
+        _presenter.Verify(p => p.Present(It.Is<InvitationDTO>(i => i.Status == status)));
     }
 
     [Test]
@@ -74,25 +74,5 @@ public class ReplyToInvitationUseCaseTests
         var act = () => _sut.Execute(dto);
 
         await act.Should().ThrowAsync<InvitationDoesNotExistException>();
-    }
-
-    private class ReplyToInvitationViewModel
-    {
-        public Guid Id { get; init; }
-        public InvitationStatus Status { get; init; }
-
-        public ReplyToInvitationViewModel(Guid id, InvitationStatus status)
-        {
-            Id = id;
-            Status = status;
-        }
-    }
-
-    private class Presenter : IReplyToInvitationPresenter<ReplyToInvitationViewModel>
-    {
-        public ReplyToInvitationViewModel Present(InvitationDTO data)
-        {
-            return new ReplyToInvitationViewModel(data.Id, data.Status);
-        }
     }
 }
